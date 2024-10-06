@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('stock');
             $table->smallInteger('is_available')->default(1);
+            $table->smallInteger('is_deleted')->default(0);
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }

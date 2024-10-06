@@ -18,4 +18,3 @@ Route::get('/', function () {
     return view('addproducttest');
 });
 
-Route::post('/addproduct', [ProductController::class, 'addProduct'])->name('addProduct');

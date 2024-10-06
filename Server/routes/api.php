@@ -4,8 +4,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,7 +19,18 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/product/{id}', [ProductController::class, 'viewProduct']);
+
+
+Route::get('adminproduct', [ProductController::class, 'getAllProducts']);
+Route::get('product', [ProductController::class, 'getAvailableProducts']);
+Route::post('product', [ProductController::class, 'addProduct']);
+Route::get('adminproduct/{id}', [ProductController::class, 'viewAnyProduct']);
+Route::get('product/{id}', [ProductController::class, 'viewProductIfAvailable']);
+Route::put('product/{id}', [ProductController::class, 'updateProduct']);
+Route::delete('product/{id}', [ProductController::class, 'deleteProduct']);
+Route::patch('hide/{id}', [ProductController::class, 'hideProduct']);
+Route::patch('show/{id}', [ProductController::class, 'showProduct']);
+
 
 Route::middleware('auth:sanctum')->group(function () {     //user must be signed in
     Route::get('/profile', [CustomerController::class, 'viewProfile']);

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('price');
             $table->string('image');
             $table->smallInteger('is_available')->default(1);
+            $table->smallInteger('is_deleted')->default(0);
         });
     }
 
