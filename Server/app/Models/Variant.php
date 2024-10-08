@@ -25,4 +25,8 @@ class Variant extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class)->withPivot('quantity');
+    }
 }

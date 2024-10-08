@@ -33,7 +33,10 @@ class ProductController extends Controller
         $this->validateProduct($request);
         $product = $this->createProduct($request);
         // Attach categories to product
-        $product->groups()->attach($request->categories);
+        if ($request->filled('categories')) {
+            $product->groups()->attach($request->categories);
+        }
+        
         return response()->json(["success" => "Product added successfully"]);
     }
 
@@ -44,7 +47,7 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'product_cover' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'categories' => 'required|array',
+            'categories' => 'nullable|array',
         ]);
 
         if ($validator->fails()) {

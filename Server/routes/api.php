@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\ProductController;
@@ -48,9 +49,24 @@ Route::get('group', [GroupController::class, 'viewGroups']);
 // CUSTOMER ROUTES START/////////////////////////////////////////////////////
 
 Route::middleware('auth:sanctum')->group(function () {     //user must be signed in
+
+    //Profile Routes
+
     Route::get('/profile', [CustomerController::class, 'viewProfile']);
     Route::put('/customer_updates_profile', [CustomerController::class, 'customerUpdatesProfile']);
     Route::delete('/customer_deletes_profile', [CustomerController::class, 'customerDeletesProfile']);
+
+    /////////////////////////////////
+
+    //Cart Routes 
+
+    Route::post('addItem/{id}', [CartController::class, 'addItem']);
+    Route::patch('incrementItem/{id}', [CartController::class, 'incrementItem']);
+    Route::patch('decrementItem/{id}', [CartController::class, 'decrementItem']);
+    Route::delete('deleteItem/{id}', [CartController::class, 'removeItem']);
+
+//////////////////////////
+
 });
 
 //////////////////////////
