@@ -13,7 +13,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['variants.images'])->where('is_deleted', 0)->get();
         if ($products->isEmpty()) {
-            return response()->json(["Error" => "Product Doesnt Exist"]);
+            return response()->json(["Error" => "No Products Exist"]);
         }
         return response()->json(["Products" => $products]);
     }
@@ -22,7 +22,7 @@ class ProductController extends Controller
     {
         $products = Product::with(['variants.images'])->where('is_available', 1)->get();
         if ($products->isEmpty()) {
-            return response()->json(["Error" => "Product Doesnt Exist"]);
+            return response()->json(["Error" => "No Products Available"]);
         }
         return response()->json(["Products" => $products]);
     }

@@ -143,31 +143,43 @@ class VariantController extends Controller
             return response()->json(['errors' => $validator->errors(), 'request' => $request], 422);
         }
 
-        $variant = Variant::find($id);
-        $variant->stock = $request->stock;
-        $variant->name = $request->name;
-        $variant->sku = $request->sku;
-        $old_cover = Image::where('variant_id', $id)->where(
-            'is_cover',
-            1
-        );
-        $old_cover->is_cover = 0;
-        $old_cover->save();
-        $new_cover = Image::find($request->cover_id);
-        $new_cover->is_cover = 1;
-        $new_cover->save();
-        if ($request->has('images') && is_array($request->images) && count($request->images) > 0) {
+        DB::beginTransaction(); // Start transaction
+
+        try {
+            $variant = Variant::find($id);
+            $variant->stock = $request->stock;
+            $variant->name = $request->name;
+            $variant->sku = $request->sku;
+            $variant->save();
+
+            $old_cover = Image::where('variant_id', $id)->where('is_variant_cover', 1)->first();
+            if ($old_cover->id != $request->cover_id) {
+                $old_cover->is_variant_cover = 0;
+                $old_cover->save();
+                $new_cover = Image::find($request->cover_id);
+                $new_cover->is_variant_cover = 1;
+                $new_cover->save();
+            }
+
+            // If images are uploaded, process and save them
+            if ($request->has('images') && is_array($request->images) && count($request->images) > 0) {
             foreach ($request->images as $index => $imageFile) {
                 $image = new Image();
                 $image->variant_id = $id;
                 $image_name = $variant->product->name . '-' . $request->name . '-' . $index . time() . "." . $imageFile->extension();
                 $image->name = $image_name;
                 $image->save();
+
                 // Move the image file to the appropriate folder
                 $imageFile->move(public_path('product_images'), $image_name);
             }
         }
 
-        return response()->json(["Variant" => Variant::with('images')->find($id)]);
+            DB::commit(); // Commit the transaction if everything is successful
+            return response()->json(["Variant" => Variant::with('images')->find($id)]);
+        } catch (\Exception $e) {
+            DB::rollBack(); // Rollback the transaction if something goes wrong
+            return response()->json(["error" => $e], 500);
+        }
     }
 }
