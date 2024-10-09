@@ -5,10 +5,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
-
 
 
 
@@ -65,7 +65,14 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
     Route::patch('decrementItem/{id}', [CartController::class, 'decrementItem']);
     Route::delete('deleteItem/{id}', [CartController::class, 'removeItem']);
 
-//////////////////////////
+    //////////////////////////
+
+    //Order Routes
+
+    Route::post('/createorder', [OrderController::class, 'createOrder']);
+    Route::get('/order/{id}', [OrderController::class, 'viewOrder']);
+
+////////////////////////////
 
 });
 
@@ -116,7 +123,16 @@ Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user m
     Route::put('group/{id}', [GroupController::class, 'updateGroup']);
     Route::delete('group/{id}', [GroupController::class, 'deleteGroup']);
 
-////////////////
+    ////////////////
+
+    //Order Routes 
+
+    Route::get('/user/orders/{id}', [OrderController::class, 'viewOrdersOfUser']);
+    Route::get('/allorders', [OrderController::class, 'viewAllOrders']);
+    Route::patch('/order/{id}', [OrderController::class, 'changeOrderStatus']);
+    Route::delete('/order/{id}', [OrderController::class, 'deleteOrder']);
+
+    /////////////////////////////////
 
 });
 

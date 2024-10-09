@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('variants', function (Blueprint $table) {
             $table->id();
             $table->string('sku')->unique();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->unsignedBigInteger('product_id');
             $table->integer('stock');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
