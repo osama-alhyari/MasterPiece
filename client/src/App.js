@@ -4,6 +4,8 @@ import { Route, Navigate } from "react-router-dom";
 import { lazy } from "react";
 import Home from "./User/Home.js";
 import AdminLayout from "./layouts/admin/AdminLayout.js";
+import Signup from "./Registration/Signup.js";
+import Login from "./Registration/Login.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -25,6 +27,8 @@ const App = () => {
   return (
     <div className="dark">
       <Routes>
+        <Route path="/register" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Navigate to="/home" />} />
         <Route path="/home" element={<Home />} />
         <Route path="/admin" element={<AdminLayout />}>

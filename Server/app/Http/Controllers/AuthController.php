@@ -81,7 +81,7 @@ class AuthController extends Controller
                 $previous_token->delete();
             }
             $token =  $user->createToken('User Logged In')->plainTextToken;
-            return Response::json(["token" => $token, "user_id" => $user->id], 200);
+            return Response::json(["token" => $token, "role_id" => $user->role->id], 200);
         }
         return Response::json(["message" => "Wrong Credentials"], 401);
     }
