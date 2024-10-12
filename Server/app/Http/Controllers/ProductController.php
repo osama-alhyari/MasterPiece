@@ -20,7 +20,7 @@ class ProductController extends Controller
 
     public function getAvailableProducts()
     {
-        $products = Product::with(['variants.images'])->where('is_available', 1)->get();
+        $products = Product::with(['variants.images', 'groups'])->where('is_available', 1)->get();
         if ($products->isEmpty()) {
             return response()->json(["Error" => "No Products Available"]);
         }
@@ -36,7 +36,7 @@ class ProductController extends Controller
         if ($request->filled('categories')) {
             $product->groups()->attach($request->categories);
         }
-        
+
         return response()->json(["success" => "Product added successfully"]);
     }
 
@@ -142,5 +142,4 @@ class ProductController extends Controller
         $product->save();
         return response()->json(["Message" => "Product Made Available"]);
     }
-
 }

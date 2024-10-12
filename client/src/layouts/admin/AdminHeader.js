@@ -23,7 +23,7 @@ const AdminHeader = () => {
       <div className="d-flex justify-content-between w-100">
         <div className="d-lg-block d-none pe-3">
           <Link to="/admin">
-            <img src="/logos/LogoWhiteMP.png" width="150px"></img>
+            <img src="/logos/LogoWhiteMP.png" width="150px" alt="Home"></img>
           </Link>
         </div>
         <div className="d-lg-none d-flex">
@@ -39,6 +39,7 @@ const AdminHeader = () => {
               src="/logos/LogoWhiteSmallMP.png"
               width="75px"
               className="p-auto"
+              alt="Mobile Home"
             ></img>
           </Link>
           <Button color="secondary" onClick={() => showMobilemenu()}>

@@ -83,7 +83,7 @@ const AdminSidebar = () => {
               <Link
                 to={navi.href}
                 className={
-                  location.pathname === navi.href
+                  location.pathname === `/admin/${navi.href}`
                     ? "active nav-link py-3"
                     : "nav-link text-secondary py-3"
                 }
