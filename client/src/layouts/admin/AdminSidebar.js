@@ -18,11 +18,6 @@ const navigation = [
     icon: "bi bi-patch-check",
   },
   {
-    title: "Buttons",
-    href: "buttons",
-    icon: "bi bi-hdd-stack",
-  },
-  {
     title: "Cards",
     href: "cards",
     icon: "bi bi-card-text",
@@ -43,14 +38,14 @@ const navigation = [
     icon: "bi bi-textarea-resize",
   },
   {
-    title: "Breadcrumbs",
-    href: "breadcrumbs",
-    icon: "bi bi-link",
+    title: "Groups",
+    href: "groups",
+    icon: "bi bi-hdd-stack",
   },
   {
-    title: "About",
-    href: "about",
-    icon: "bi bi-people",
+    title: "Products",
+    href: "products",
+    icon: "bi bi-bag-fill",
   },
 ];
 

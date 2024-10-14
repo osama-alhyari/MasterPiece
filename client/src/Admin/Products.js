@@ -1,113 +1,203 @@
-import { Card, CardBody, CardTitle, CardSubtitle, Table } from "reactstrap";
-import user1 from "../assets/images/users/user1.jpg";
-import user2 from "../assets/images/users/user2.jpg";
-import user3 from "../assets/images/users/user3.jpg";
-import user4 from "../assets/images/users/user3.jpg";
-import user5 from "../assets/images/users/user5.jpg";
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  Table,
+  BreadcrumbItem,
+  Breadcrumb,
+  Badge,
+  FormGroup,
+  Input,
+  Label,
+  Button,
+} from "reactstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
 export default function Products() {
-  const tableData = [
-    {
-      avatar: user1,
-      name: "Hanna Gover",
-      email: "hgover@gmail.com",
-      project: "Flexy React",
-      status: "pending",
-      weeks: "35",
-      budget: "95K",
-    },
-    {
-      avatar: user2,
-      name: "Hanna Gover",
-      email: "hgover@gmail.com",
-      project: "Lading pro React",
-      status: "done",
-      weeks: "35",
-      budget: "95K",
-    },
-    {
-      avatar: user3,
-      name: "Hanna Gover",
-      email: "hgover@gmail.com",
-      project: "Elite React",
-      status: "holt",
-      weeks: "35",
-      budget: "95K",
-    },
-    {
-      avatar: user4,
-      name: "Hanna Gover",
-      email: "hgover@gmail.com",
-      project: "Flexy React",
-      status: "pending",
-      weeks: "35",
-      budget: "95K",
-    },
-    {
-      avatar: user5,
-      name: "Hanna Gover",
-      email: "hgover@gmail.com",
-      project: "Ample React",
-      status: "done",
-      weeks: "35",
-      budget: "95K",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+  const [render, setRender] = useState(0);
+
+  const token = localStorage.getItem("token");
+
+  async function changeProductAvailability(id, availability, index) {
+    if (availability === 1) {
+      await axios.patch(
+        `http://127.0.0.1:8000/api/hide/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the Authorization header
+            "Content-Type": "application/json", // Optional: if you're sending JSON data
+          },
+        }
+      );
+      const newProducts = products;
+      newProducts[index].is_available = 0;
+      setProducts(newProducts);
+    } else {
+      await axios.patch(
+        `http://127.0.0.1:8000/api/show/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Set the Authorization header
+            "Content-Type": "application/json", // Optional: if you're sending JSON data
+          },
+        }
+      );
+      const newProducts = products;
+      newProducts[index].is_available = 1;
+      setProducts(newProducts);
+    }
+    setRender(render + 1);
+  }
+
+  async function fetchProducts() {
+    const response = await axios.get("http://127.0.0.1:8000/api/adminproduct", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header
+        "Content-Type": "application/json", // Optional: if you're sending JSON data
+      },
+    });
+    setProducts(response.data.Products);
+  }
+
+  useEffect(() => {
+    fetchProducts();
+  }, [render]);
+
+  const handleDelete = (productId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://127.0.0.1:8000/api/product/${productId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`, // Set the Authorization header
+              "Content-Type": "application/json", // Optional: if you're sending JSON data
+            },
+          });
+          setProducts(products.filter((product) => product.id !== productId)); // Update the UI
+          Swal.fire("Deleted!", "Your product has been deleted.", "success");
+        } catch (error) {
+          Swal.fire(
+            "Error!",
+            "There was a problem deleting the product.",
+            "error"
+          );
+        }
+      }
+    });
+  };
+
   return (
     <>
       <div>
+        <Breadcrumb>
+          <BreadcrumbItem>
+            <Link to={"/admin"}>Dashboard</Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem active>Products</BreadcrumbItem>
+        </Breadcrumb>
         <Card>
           <CardBody>
-            <CardTitle tag="h5">Project Listing</CardTitle>
-            <CardSubtitle className="mb-2 text-muted" tag="h6">
-              Overview of the projects
-            </CardSubtitle>
-
+            <CardTitle tag="h5">
+              <i className="bi bi-bag-fill me-2"> </i>Product List
+            </CardTitle>
             <Table className="no-wrap mt-3 align-middle" responsive borderless>
               <thead>
                 <tr>
-                  <th>Team Lead</th>
-                  <th>Project</th>
-
+                  <th>Image</th>
+                  <th>Product</th>
+                  <th className="text-center">Groups</th>
+                  <th>Price</th>
                   <th>Status</th>
-                  <th>Weeks</th>
-                  <th>Budget</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {tableData.map((tdata, index) => (
-                  <tr key={index} className="border-top">
-                    <td>
-                      <div className="d-flex align-items-center p-2">
-                        <img
-                          src={tdata.avatar}
-                          className="rounded-circle"
-                          alt="avatar"
-                          width="45"
-                          height="45"
-                        />
-                        <div className="ms-3">
-                          <h6 className="mb-0">{tdata.name}</h6>
-                          <span className="text-muted">{tdata.email}</span>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{tdata.project}</td>
-                    <td>
-                      {tdata.status === "pending" ? (
-                        <span className="p-2 bg-danger rounded-circle d-inline-block ms-3"></span>
-                      ) : tdata.status === "holt" ? (
-                        <span className="p-2 bg-warning rounded-circle d-inline-block ms-3"></span>
-                      ) : (
-                        <span className="p-2 bg-success rounded-circle d-inline-block ms-3"></span>
-                      )}
-                    </td>
-                    <td>{tdata.weeks}</td>
-                    <td>{tdata.budget}</td>
-                  </tr>
-                ))}
+                {products
+                  ? products.map((product, index) => (
+                      <tr key={index} className="border-top">
+                        <td>
+                          <div className="d-flex align-items-center p-2">
+                            <img
+                              src={`http://127.0.0.1:8000/product_images/${product.image}`}
+                              className="rounded-circle"
+                              alt="avatar"
+                              width="45"
+                              height="45"
+                            />
+                          </div>
+                        </td>
+                        <td>{product.name}</td>
+                        <td>
+                          <div className="d-flex justify-content-center align-items-center">
+                            {product.groups.map((group) => {
+                              return (
+                                <Badge color="dark" className="ms-3" pill>
+                                  {group.name}
+                                </Badge>
+                              );
+                            })}
+                          </div>
+                        </td>
+                        <td>{product.price} JOD</td>
+                        <td>
+                          <FormGroup switch className="pointer">
+                            <Input
+                              type="switch"
+                              checked={product.is_available === 1}
+                              onClick={() => {
+                                changeProductAvailability(
+                                  product.id,
+                                  product.is_available,
+                                  index
+                                );
+                              }}
+                            />
+                          </FormGroup>
+                        </td>
+                        <td>
+                          <div className="text-center d-flex flex-lg-row flex-column gap-1 justify-content-center align-items-center">
+                            <Link to={`edit/${product.id}`}>
+                              <Button className="btn" color="primary">
+                                <i className="bi bi-pencil-square"></i>
+                              </Button>
+                            </Link>
+                            <Link>
+                              <Button
+                                className="btn"
+                                color="danger"
+                                onClick={() => handleDelete(product.id)} // Handle delete action
+                              >
+                                <i className="bi bi-trash3-fill"></i>
+                              </Button>
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  : "No Products Exist"}
               </tbody>
             </Table>
+            <div className="d-flex justify-content-start justify-content-lg-end">
+              <Link to={"create"}>
+                <Button className="btn" color="success">
+                  Add Product
+                </Button>
+              </Link>
+            </div>
           </CardBody>
         </Card>
       </div>

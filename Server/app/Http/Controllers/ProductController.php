@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function getAllProducts()
     {
-        $products = Product::with(['variants.images'])->where('is_deleted', 0)->get();
+        $products = Product::with(['variants.images', 'groups'])->where('is_deleted', 0)->get();
         if ($products->isEmpty()) {
             return response()->json(["Error" => "No Products Exist"]);
         }
@@ -33,8 +33,8 @@ class ProductController extends Controller
         $this->validateProduct($request);
         $product = $this->createProduct($request);
         // Attach categories to product
-        if ($request->filled('categories')) {
-            $product->groups()->attach($request->categories);
+        if ($request->filled('groups')) {
+            $product->groups()->attach($request->groups);
         }
 
         return response()->json(["success" => "Product added successfully"]);
@@ -43,11 +43,11 @@ class ProductController extends Controller
     private function validateProduct(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'product_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'product_cover' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'categories' => 'nullable|array',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'groups' => 'nullable|array',
         ]);
 
         if ($validator->fails()) {
@@ -59,21 +59,21 @@ class ProductController extends Controller
     {
         // Create and save the product
         $product = new Product();
-        $product->name = $request->product_name;
+        $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
-        $product_cover = $request->product_name . "." . $request->product_cover->extension();
+        $product_cover = $request->name . "." . $request->image->extension();
         $product->image = $product_cover;
         $product->save();
         // Move the product cover image to the appropriate directory
-        $request->product_cover->move(public_path('product_images'), $product_cover);
+        $request->image->move(public_path('product_images'), $product_cover);
 
         return $product;
     }
 
     public function viewAnyProduct(string $id)
     {
-        $product = Product::with(['variants.images'])->where('is_deleted', 0)->find($id);
+        $product = Product::with(['variants.images', 'groups'])->where('is_deleted', 0)->find($id);
         if ($product === null) {
             return response()->json(["Error" => "Product Doesnt Exist"]);
         }
@@ -92,11 +92,11 @@ class ProductController extends Controller
     public function updateProduct(Request $request, string $id)
     {
         $validator = Validator::make($request->all(), [
-            'product_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
-            'product_cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'categories' => 'required|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'groups' => 'nullable|array',
         ]);
 
         if ($validator->fails()) {
@@ -104,16 +104,16 @@ class ProductController extends Controller
         }
 
         $product = Product::find($id);
-        $product->name = $request->product_name;
+        $product->name = $request->name;
         $product->price = $request->price;
         $product->description = $request->description;
-        if ($request->hasFile('product_cover')) {
-            File::delete(app_path() . '/product_images/' . $product->image);
-            $product_cover = $request->name . "." . $request->product_cover->extension();
-            $request->product_cover->move(public_path('product_images'), $product_cover);
+        if ($request->hasFile('image')) {
+            File::delete(public_path('/product_images/' . $product->image));
+            $product_cover = $request->name . "." . $request->image->extension();
+            $request->image->move(public_path('product_images'), $product_cover);
             $product->image = $product_cover;
         }
-        $product->groups()->sync($request->categories);
+        $product->groups()->sync($request->groups);
         $product->save();
         return response()->json(["Message" => $product]);
     }

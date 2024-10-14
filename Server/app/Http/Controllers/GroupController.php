@@ -33,7 +33,7 @@ class GroupController extends Controller
 
     public function viewGroups()
     {
-        $groups = Group::all();
+        $groups = Group::withCount('products')->get();
         if ($groups->isEmpty()) {
             return response()->json(["Error" => "No Groups Exist"]);
         }

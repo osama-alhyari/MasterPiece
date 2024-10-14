@@ -6,6 +6,11 @@ import Home from "./User/Home.js";
 import AdminLayout from "./layouts/admin/AdminLayout.js";
 import Signup from "./Registration/Signup.js";
 import Login from "./Registration/Login.js";
+import Groups from "./Admin/Groups.js";
+import EditGroup from "./Admin/EditGroup.js";
+import AddGroup from "./Admin/AddGroup.js";
+import AddProduct from "./Admin/AddProduct.js";
+import EditProduct from "./Admin/EditProduct.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -34,6 +39,11 @@ const App = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<Starter />} />
           <Route path="products" element={<Products />} />
+          <Route path="products/create" element={<AddProduct />} />
+          <Route path="products/edit/:id" element={<EditProduct />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="groups/create" element={<AddGroup />} />
+          <Route path="groups/edit/:id" element={<EditGroup />} />
           <Route path="starter" element={<Starter />} />
           <Route path="about" element={<About />} />
           <Route path="alerts" element={<Alerts />} />

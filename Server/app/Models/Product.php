@@ -19,7 +19,7 @@ class Product extends Model
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class, 'group_product');
     }
 
     public function variants()
