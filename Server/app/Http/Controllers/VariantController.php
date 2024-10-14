@@ -21,35 +21,35 @@ class VariantController extends Controller
         DB::beginTransaction(); // Start the transaction
 
         try {
-        // Find the product
-        $product = Product::find($request->product_id);
+            // Find the product
+            $product = Product::find($request->product_id);
 
-        // Create a new variant
-        $variant = new Variant();
-        $variant->product_id = $request->product_id;
-        $variant->stock = $request->stock;
-        $variant->name = $request->name;
-        $variant->sku = $request->sku;
-        $variant->save();
+            // Create a new variant
+            $variant = new Variant();
+            $variant->product_id = $request->product_id;
+            $variant->stock = $request->stock;
+            $variant->name = $request->name;
+            $variant->sku = $request->sku;
+            $variant->save();
 
-        // Process the images
-        $images = $request->images;
-        $cover_index = $request->cover_index;
+            // Process the images
+            $images = $request->images;
+            $cover_index = $request->cover_index;
 
             foreach ($images as $index => $imageFile) {
-            $image = new Image();
-            $image->variant_id = $variant->id;
+                $image = new Image();
+                $image->variant_id = $variant->id;
 
-            if ($index == $cover_index) {
+                if ($index == $cover_index) {
                     $image_name = $product->name . '-' . $request->name . '-' . $index . '-' . 'cover' . "." . $imageFile->extension();
-                $image->is_variant_cover = 1;
-            } else {
+                    $image->is_variant_cover = 1;
+                } else {
                     $image_name = $product->name . '-' . $request->name . '-' . $index . "." . $imageFile->extension();
-                $image->is_variant_cover = 0;
-            }
+                    $image->is_variant_cover = 0;
+                }
 
-            $image->name = $image_name;
-            $image->save();
+                $image->name = $image_name;
+                $image->save();
 
                 // Move the image file to the appropriate folder
                 $imageFile->move(public_path('product_images'), $image_name);
@@ -130,13 +130,16 @@ class VariantController extends Controller
 
     public function updateVariant(string $id, Request $request)
     {
+        // return response()->json(["req" => $request->images]);
         $validator = Validator::make($request->all(), [
             'stock' => 'required|numeric|min:0',
             'name' => 'required|string|max:255',
             'sku' => 'required|string|distinct|max:255',
             'images' => 'nullable|array',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'cover_id' => 'required|numeric|min:0',
+            'cover_id' => 'nullable|numeric|min:0',
+            'cover_index' => 'nullable|numeric|min:0',
+            'deleted_images_ids' => 'nullable|array',
         ]);
 
         if ($validator->fails()) {
@@ -153,27 +156,44 @@ class VariantController extends Controller
             $variant->save();
 
             $old_cover = Image::where('variant_id', $id)->where('is_variant_cover', 1)->first();
-            if ($old_cover->id != $request->cover_id) {
-                $old_cover->is_variant_cover = 0;
-                $old_cover->save();
-                $new_cover = Image::find($request->cover_id);
-                $new_cover->is_variant_cover = 1;
-                $new_cover->save();
+            if ($request->has('cover_id')) {
+                if ($old_cover->id != $request->cover_id) {
+                    $old_cover->is_variant_cover = 0;
+                    $old_cover->save();
+                    $new_cover = Image::find($request->cover_id);
+                    $new_cover->is_variant_cover = 1;
+                    $new_cover->save();
+                }
             }
 
             // If images are uploaded, process and save them
             if ($request->has('images') && is_array($request->images) && count($request->images) > 0) {
-            foreach ($request->images as $index => $imageFile) {
-                $image = new Image();
-                $image->variant_id = $id;
-                $image_name = $variant->product->name . '-' . $request->name . '-' . $index . time() . "." . $imageFile->extension();
-                $image->name = $image_name;
-                $image->save();
+                foreach ($request->images as $index => $imageFile) {
+                    $image = new Image();
+                    $image->variant_id = $id;
+                    $image_name = $variant->product->name . '-' . $request->name . '-' . $index . time() . "." . $imageFile->extension();
+                    $image->name = $image_name;
+                    if ($request->has('cover_index')) {
+                        if ($index == $request->cover_index) {
+                            $image->is_variant_cover = 1;
+                            $old_cover->is_variant_cover = 0;
+                            $old_cover->save();
+                        }
+                    }
+                    $image->save();
 
-                // Move the image file to the appropriate folder
-                $imageFile->move(public_path('product_images'), $image_name);
+                    // Move the image file to the appropriate folder
+                    $imageFile->move(public_path('product_images'), $image_name);
+                }
             }
-        }
+
+            if ($request->has('deleted_images_ids') && is_array($request->deleted_images_ids)) {
+                foreach ($request->deleted_images_ids as $deleted_image_id) {
+                    // refactor to delete from server also
+                    $deleted_image = Image::find($deleted_image_id);
+                    $deleted_image->delete();
+                }
+            }
 
             DB::commit(); // Commit the transaction if everything is successful
             return response()->json(["Variant" => Variant::with('images')->find($id)]);

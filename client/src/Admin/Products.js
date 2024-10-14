@@ -121,8 +121,8 @@ export default function Products() {
                   <th>Product</th>
                   <th className="text-center">Groups</th>
                   <th>Price</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th className="text-center">Status</th>
+                  <th className="text-center">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,11 +153,13 @@ export default function Products() {
                           </div>
                         </td>
                         <td>{product.price} JOD</td>
-                        <td>
-                          <FormGroup switch className="pointer">
+                        <td className="text-center">
+                          <FormGroup switch>
                             <Input
+                              className="float-none"
                               type="switch"
                               checked={product.is_available === 1}
+                              style={{ cursor: "pointer" }}
                               onClick={() => {
                                 changeProductAvailability(
                                   product.id,

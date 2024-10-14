@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import {
   Button,
   Form,
@@ -13,8 +14,9 @@ import {
   BreadcrumbItem,
   FormText,
 } from "reactstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import EditVariant from "./EditVariant";
 
 export default function EditProduct() {
   const navigate = useNavigate();
@@ -55,7 +57,8 @@ export default function EditProduct() {
         description: product.description,
         price: product.price,
         groups: product.groups.map((group) => group.id), // Set the selected groups
-        currentImage: product.image, // Store the current image URL
+        currentImage: product.image,
+        variants: product.variants, // Store the current image URL
       });
     } catch (error) {
       console.error("Error fetching product", error);
@@ -94,7 +97,14 @@ export default function EditProduct() {
 
   // Handle file input change for the product image
   const handleFileChange = (e) => {
-    setProductData({ ...productData, image: e.target.files[0] });
+    const file = e.target.files[0];
+
+    // Update the state with the new image file
+    setProductData({
+      ...productData,
+      image: file,
+      currentImage: URL.createObjectURL(file), // Update the current image preview
+    });
   };
 
   // Handle form submission
@@ -134,7 +144,11 @@ export default function EditProduct() {
           },
         }
       );
-      navigate("/admin/products");
+      Swal.fire({
+        title: "Product Saved!",
+        text: "Press OK To Continue",
+        icon: "success",
+      });
     } catch (error) {
       console.error("Error updating product", error);
     }
@@ -160,69 +174,83 @@ export default function EditProduct() {
             Edit Product
           </CardTitle>
           <CardBody>
-            <Label for="image">Product Image</Label>
-            {/* Display the current product image */}
-            {productData.currentImage && (
-              <div className="mb-3">
-                <img
-                  src={`http://127.0.0.1:8000/product_images/${productData.currentImage}`}
-                  alt="Product"
-                  style={{ width: "150px", height: "auto" }}
-                />
-              </div>
-            )}
             <Form onSubmit={handleSubmit}>
-              <FormGroup>
-                <Label for="name">Product Name</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  placeholder="Enter Product Name"
-                  type="text"
-                  value={productData.name}
-                  onChange={handleInputChange}
-                />
-              </FormGroup>
+              <div className="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                  <Label for="image">Product Image</Label>
 
-              <FormGroup>
-                <Label for="description">Description</Label>
-                <Input
-                  id="description"
-                  name="description"
-                  placeholder="Enter Product Description"
-                  type="text"
-                  value={productData.description}
-                  onChange={handleInputChange}
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Label for="price">Price</Label>
-                <Input
-                  id="price"
-                  name="price"
-                  placeholder="Enter Product Price"
-                  type="number"
-                  value={productData.price}
-                  onChange={handleInputChange}
-                />
-              </FormGroup>
-
-              {/* Group checkboxes */}
-              {groups.map((group) => {
-                return (
-                  <FormGroup check key={group.id}>
+                  <div className="mb-3">
+                    {productData.image ? (
+                      <img
+                        src={productData.currentImage}
+                        alt="Product"
+                        style={{ width: "150px", height: "auto" }}
+                      />
+                    ) : (
+                      <img
+                        src={`http://127.0.0.1:8000/product_images/${productData.currentImage}`}
+                        alt="Product"
+                        style={{ width: "150px", height: "auto" }}
+                      />
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <FormGroup>
+                    <Label for="name">Product Name</Label>
                     <Input
-                      type="checkbox"
-                      name="groups[]"
-                      value={group.id}
-                      checked={productData.groups.includes(group.id)}
-                      onChange={handleGroupChange}
+                      id="name"
+                      name="name"
+                      placeholder="Enter Product Name"
+                      type="text"
+                      value={productData.name}
+                      onChange={handleInputChange}
                     />
-                    <Label check>{group.name}</Label>
                   </FormGroup>
-                );
-              })}
+
+                  <FormGroup>
+                    <Label for="description">Description</Label>
+                    <Input
+                      id="description"
+                      name="description"
+                      placeholder="Enter Product Description"
+                      type="text"
+                      value={productData.description}
+                      onChange={handleInputChange}
+                    />
+                  </FormGroup>
+                </div>
+                <div>
+                  <FormGroup>
+                    <Label for="price">Price</Label>
+                    <Input
+                      id="price"
+                      name="price"
+                      placeholder="Enter Product Price"
+                      type="number"
+                      value={productData.price}
+                      onChange={handleInputChange}
+                    />
+                  </FormGroup>
+
+                  {/* Group checkboxes */}
+                  <Label for="groups">Groups:</Label>
+                  {groups.map((group) => {
+                    return (
+                      <FormGroup check key={group.id}>
+                        <Input
+                          type="checkbox"
+                          name="groups[]"
+                          value={group.id}
+                          checked={productData.groups.includes(group.id)}
+                          onChange={handleGroupChange}
+                        />
+                        <Label check>{group.name}</Label>
+                      </FormGroup>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Image upload */}
               <FormGroup>
@@ -236,13 +264,34 @@ export default function EditProduct() {
                   Upload a new cover image for this product (optional).
                 </FormText>
               </FormGroup>
-
               <Button color="success" type="submit">
-                Save Changes
+                Save Product
               </Button>
             </Form>
           </CardBody>
         </Card>
+
+        {productData.variants ? (
+          <>
+            <Card>
+              <CardTitle tag="h6" className="border-bottom p-3 mb-0">
+                Product Variants
+              </CardTitle>
+            </Card>
+            {productData.variants.map((variant) => {
+              return <EditVariant variant={variant} />;
+            })}
+          </>
+        ) : null}
+
+        <Outlet />
+        <div className="d-flex justify-content-start justify-content-lg-end">
+          <Link to={"addvariant"}>
+            <Button color="success" type="submit">
+              Add Variant
+            </Button>
+          </Link>
+        </div>
       </Col>
     </div>
   );
