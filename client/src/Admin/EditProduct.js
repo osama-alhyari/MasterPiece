@@ -22,6 +22,7 @@ export default function EditProduct() {
   const navigate = useNavigate();
   const { id } = useParams(); // Get product ID from URL params
   const [groups, setGroups] = useState([]);
+  const [breadcrumbName, setBreadcrumbName] = useState("");
   const [productData, setProductData] = useState({
     name: "",
     description: "",
@@ -52,6 +53,7 @@ export default function EditProduct() {
       );
 
       const product = response.data.Product;
+      setBreadcrumbName(product.name);
       setProductData({
         name: product.name,
         description: product.description,
@@ -165,7 +167,7 @@ export default function EditProduct() {
           <BreadcrumbItem>
             <Link to="/admin/products">Products</Link>
           </BreadcrumbItem>
-          <BreadcrumbItem active>Edit Product</BreadcrumbItem>
+          <BreadcrumbItem active>{breadcrumbName}</BreadcrumbItem>
         </Breadcrumb>
 
         {/* Card for the form */}

@@ -37,7 +37,7 @@ class ProductController extends Controller
             $product->groups()->attach($request->groups);
         }
 
-        return response()->json(["success" => "Product added successfully"]);
+        return response()->json(["success" => "Product added successfully", "product_id" => $product->id]);
     }
 
     private function validateProduct(Request $request)

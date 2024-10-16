@@ -86,13 +86,17 @@ export default function AddProduct() {
     });
 
     try {
-      await axios.post(`http://127.0.0.1:8000/api/product`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data", // Ensure multipart/form-data for file upload
-        },
-      });
-      navigate("/admin/groups");
+      const response = await axios.post(
+        `http://127.0.0.1:8000/api/product`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // Ensure multipart/form-data for file upload
+          },
+        }
+      );
+      navigate(`/admin/products/edit/${response.data.product_id}`);
     } catch (error) {
       console.error("Error creating product", error);
     }

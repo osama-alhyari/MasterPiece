@@ -76,10 +76,9 @@ export default function Groups() {
             <Table responsive borderless className="">
               <thead>
                 <tr>
-                  <th className="text-center">Group ID</th>
                   <th className="text-center">Group Name</th>
                   <th className="text-center">Number Of Products</th>
-                  <th className="text-center">Parent ID</th>
+                  <th className="text-center">Parent Group</th>
                   <th className="text-center">Actions</th>
                 </tr>
               </thead>
@@ -87,13 +86,10 @@ export default function Groups() {
                 {groups.map((group) => {
                   return (
                     <tr key={group.id} className="border-top">
-                      <th className="text-center" scope="row">
-                        {group.id}
-                      </th>
                       <td className="text-center">{group.name}</td>
                       <td className="text-center">{group.products_count}</td>
                       <td className="text-center">
-                        {group.parent_id || "None"}
+                        {group.group ? group.group.name : "*No Parent Group*"}
                       </td>
                       <td className="text-center d-flex flex-lg-row flex-column gap-1 justify-content-center">
                         <Link to={`edit/${group.id}`}>

@@ -10,12 +10,10 @@ import {
   CardTitle,
   FormText,
 } from "reactstrap";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 export default function EditVariant({ variant }) {
-  const navigate = useNavigate();
   const [variantData, setVariantData] = useState({
     name: variant.name,
     sku: variant.sku,
@@ -26,9 +24,15 @@ export default function EditVariant({ variant }) {
   const [newImages, setNewImages] = useState([]); // New images uploaded by the user
   const [deletedImageIds, setDeletedImageIds] = useState([]); // To store IDs of deleted images
   const [coverImage, setCoverImage] = useState({
-    type: "existing", // "existing" or "new"
-    value: variant.images.find((img) => img.is_variant_cover === 1)?.id, // Initial cover ID (existing image)
+    type: variant.images.some((img) => img.is_variant_cover === 1)
+      ? "existing"
+      : "new", // Set type to "existing" if a cover exists, otherwise "new"
+    value: variant.images.find((img) => img.is_variant_cover === 1)?.id || null, // Use null if no cover image exists
   });
+
+  const onRadioBtnClick = (type, id) => {
+    setCoverImage({ type, value: id });
+  };
 
   // Handle input changes for variant fields
   const handleInputChange = (e) => {
@@ -97,10 +101,10 @@ export default function EditVariant({ variant }) {
     formData.append("stock", variantData.stock);
 
     // Handle cover image (either send cover_id or cover_index)
-    if (coverImage.type === "existing") {
-      formData.append("cover_id", coverImage.value); // Send cover_id if it's an existing image
-    } else {
-      formData.append("cover_index", coverImage.value); // Send cover_index if it's a new image
+    if (coverImage.type === "existing" && coverImage.value !== null) {
+      formData.append("cover_id", coverImage.value); // Send cover_id if it's an existing image and has a valid ID
+    } else if (coverImage.type === "new" && coverImage.value !== null) {
+      formData.append("cover_index", coverImage.value); // Send cover_index if it's a new image and has a valid index
     }
 
     deletedImageIds.forEach((id) => {
@@ -180,77 +184,89 @@ export default function EditVariant({ variant }) {
             </FormGroup>
 
             {/* Existing Images Preview */}
-            <div className="image-preview-container">
-              <Label>Existing Images</Label>
-              {variantData.images.map((image, index) => (
-                <div key={image.id} className="image-preview">
-                  <img
-                    src={`http://127.0.0.1:8000/product_images/${image.name}`}
-                    alt={`Existing ${image.name}`}
-                    style={{ width: "100px", height: "auto" }}
-                  />
-                  <Button
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleImageDelete(index, image.id)}
-                  >
-                    Delete
-                  </Button>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="cover"
-                        checked={
-                          coverImage.type === "existing" &&
+            <div className="d-flex justify-content-between align-items-center">
+              <div>
+                {variant.images.length > 0 ? (
+                  <Label>Existing Images</Label>
+                ) : null}
+                <div className="d-flex flex-wrap gap-2">
+                  {variantData.images.map((image, index) => (
+                    <div key={image.id} className="d-flex flex-column gap-1">
+                      <img
+                        src={`http://127.0.0.1:8000/product_images/${image.name}`}
+                        alt={`Existing ${image.name}`}
+                        style={{ height: "150px", border: "1px solid black" }}
+                      />
+                      <FormGroup check className="p-0">
+                        <Button
+                          size="sm"
+                          block
+                          color="primary"
+                          onClick={() => onRadioBtnClick("existing", image.id)} // Set as cover
+                          active={
+                            coverImage.type === "existing" &&
+                            coverImage.value === image.id
+                          }
+                        >
+                          {coverImage.type === "existing" &&
                           coverImage.value === image.id
-                        }
-                        onChange={() =>
-                          setCoverImage({ type: "existing", value: image.id })
-                        }
-                      />
-                      Set as Cover
-                    </Label>
-                  </FormGroup>
+                            ? "Cover"
+                            : "Set as Cover"}
+                        </Button>
+                      </FormGroup>
+                      <Button
+                        block
+                        color="danger"
+                        size="sm"
+                        onClick={() => handleImageDelete(index, image.id)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+              {/* New Images Preview */}
+              <div>
+                {newImages.length > 0 ? <Label>New Images</Label> : null}
+                <div className="d-flex flex-wrap gap-2">
+                  {newImages.map((image, index) => (
+                    <div key={index} className="d-flex flex-column gap-1">
+                      <img
+                        src={URL.createObjectURL(image)}
+                        alt={`New ${index}`}
+                        style={{ height: "150px" }}
+                      />
 
-            {/* New Images Preview */}
-            <div className="image-preview-container">
-              <Label>New Images</Label>
-              {newImages.map((image, index) => (
-                <div key={index} className="image-preview">
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt={`New ${index}`}
-                    style={{ width: "100px", height: "auto" }}
-                  />
-                  <Button
-                    color="danger"
-                    size="sm"
-                    onClick={() => handleNewImageDelete(index)}
-                  >
-                    Delete
-                  </Button>
-                  <FormGroup check>
-                    <Label check>
-                      <Input
-                        type="radio"
-                        name="cover"
-                        checked={
-                          coverImage.type === "new" &&
+                      <FormGroup check className="p-0">
+                        <Button
+                          size="sm"
+                          block
+                          color="primary"
+                          onClick={() => onRadioBtnClick("new", index)} // Set as cover
+                          active={
+                            coverImage.type === "new" &&
+                            coverImage.value === index
+                          }
+                        >
+                          {coverImage.type === "new" &&
                           coverImage.value === index
-                        }
-                        onChange={() =>
-                          setCoverImage({ type: "new", value: index })
-                        }
-                      />
-                      Set as Cover
-                    </Label>
-                  </FormGroup>
+                            ? "Cover"
+                            : "Set as Cover"}
+                        </Button>
+                      </FormGroup>
+                      <Button
+                        block
+                        color="danger"
+                        size="sm"
+                        onClick={() => handleNewImageDelete(index)}
+                      >
+                        Delete
+                      </Button>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
 
             {/* Image Upload */}

@@ -176,8 +176,10 @@ class VariantController extends Controller
                     if ($request->has('cover_index')) {
                         if ($index == $request->cover_index) {
                             $image->is_variant_cover = 1;
-                            $old_cover->is_variant_cover = 0;
-                            $old_cover->save();
+                            if ($old_cover) {
+                                $old_cover->is_variant_cover = 0;
+                                $old_cover->save();
+                            }
                         }
                     }
                     $image->save();
