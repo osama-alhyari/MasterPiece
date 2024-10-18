@@ -6,21 +6,21 @@ import Home from "./User/Home.js";
 import AdminLayout from "./layouts/admin/AdminLayout.js";
 import Signup from "./Registration/Signup.js";
 import Login from "./Registration/Login.js";
-import Groups from "./Admin/Groups.js";
-import EditGroup from "./Admin/EditGroup.js";
-import AddGroup from "./Admin/AddGroup.js";
-import AddProduct from "./Admin/AddProduct.js";
-import EditProduct from "./Admin/EditProduct.js";
-import AddVariant from "./Admin/AddVariant.js";
-import Users from "./Admin/Users.js";
+import Groups from "./Admin/Group/Groups.js";
+import EditGroup from "./Admin/Group/EditGroup.js";
+import AddGroup from "./Admin/Group/AddGroup.js";
+import AddProduct from "./Admin/Product/AddProduct.js";
+import EditProduct from "./Admin/Product/EditProduct.js";
+import AddVariant from "./Admin/Product/AddVariant.js";
+import Users from "./Admin/User/Users.js";
 import Orders from "./Admin/Orders.js";
 import UserLayout from "./layouts/user/UserLayout.js";
 import Group from "./User/Group.js";
-import Customization from "./Admin/Customization.js";
-import AddSlider from "./Admin/AddSlider.js";
-import EditUser from "./Admin/EditUser.js";
-import AddUser from "./Admin/AddUser.js";
-import EditSlider from "./Admin/EditSlider.js";
+import Customization from "./Admin/Customization/Customization.js";
+import AddSlider from "./Admin/Customization/AddSlider.js";
+import EditUser from "./Admin/User/EditUser.js";
+import AddUser from "./Admin/User/AddUser.js";
+import EditSlider from "./Admin/Customization/EditSlider.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -36,7 +36,7 @@ const Grid = lazy(() => import("./views/ui/Grid"));
 const Tables = lazy(() => import("./views/ui/Tables"));
 const Forms = lazy(() => import("./views/ui/Forms"));
 const Breadcrumbs = lazy(() => import("./views/ui/Breadcrumbs"));
-const Products = lazy(() => import("./Admin/Products"));
+const Products = lazy(() => import("./Admin/Product/Products"));
 
 const App = () => {
   return (
