@@ -7,12 +7,14 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SliderController;
 use App\Http\Controllers\VariantController;
 use Illuminate\Support\Facades\Route;
 
 
 
-
+Route::get('/sliders', [SliderController::class, 'index'])->name('sliders.index');        // Get all sliders
+// Delete a slider
 
 // PUBLIC ROUTES START////////////////////////////////////////////////////////
 
@@ -40,7 +42,8 @@ Route::get('/allvariants/{id}', [VariantController::class, 'viewAllVariants']);
 //Group Routes
 
 Route::get('group/{id}', [GroupController::class, 'viewGroup']);
-Route::get('group', [GroupController::class, 'viewGroups']);
+Route::get('user/group', [GroupController::class, 'viewGroupsUser']);
+
 
 //////////////////////
 
@@ -49,6 +52,8 @@ Route::get('group', [GroupController::class, 'viewGroups']);
 // CUSTOMER ROUTES START/////////////////////////////////////////////////////
 
 Route::middleware('auth:sanctum')->group(function () {     //user must be signed in
+
+    Route::get('check/user', [AuthController::class, 'check']);
 
     //Profile Routes
 
@@ -72,7 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
     Route::post('/createorder', [OrderController::class, 'createOrder']);
     Route::get('/order/{id}', [OrderController::class, 'viewOrder']);
 
-////////////////////////////
+    ////////////////////////////
 
 });
 
@@ -82,7 +87,17 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
 
 Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user must be signed in as an admin
 
-//Product Routes
+    Route::get('check/admin', [AdminController::class, 'check']);
+
+
+    //Slider Routes
+
+    Route::get('/sliders/{id}', [SliderController::class, 'show'])->name('sliders.show');      // Get single slider
+    Route::post('/sliders', [SliderController::class, 'createSlider'])->name('sliders.store'); // Create a slider
+    Route::put('/sliders/{id}', [SliderController::class, 'update'])->name('sliders.update');  // Update a slider
+    Route::delete('/sliders/{id}', [SliderController::class, 'destroy'])->name('sliders.destroy');
+
+    //Product Routes
 
     Route::get('adminproduct', [ProductController::class, 'getAllProducts']);
     Route::get('adminproduct/{id}', [ProductController::class, 'viewAnyProduct']);
@@ -92,9 +107,9 @@ Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user m
     Route::put('product/{id}', [ProductController::class, 'updateProduct']);
     Route::post('product', [ProductController::class, 'addProduct']);
 
-//////////////
+    //////////////
 
-//User Related Routes
+    //User Related Routes
 
     Route::get('view_user/{id}', [AdminController::class, 'viewUser']);
     Route::get('active_users', [AdminController::class, 'viewActiveUsers']);
@@ -122,6 +137,8 @@ Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user m
     Route::post('group', [GroupController::class, 'addGroup']);
     Route::put('group/{id}', [GroupController::class, 'updateGroup']);
     Route::delete('group/{id}', [GroupController::class, 'deleteGroup']);
+    Route::get('group', [GroupController::class, 'viewGroupsAdmin']);
+
 
     ////////////////
 

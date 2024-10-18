@@ -111,8 +111,17 @@ export default function Products() {
         </Breadcrumb>
         <Card>
           <CardBody>
-            <CardTitle tag="h5">
-              <i className="bi bi-bag-fill me-2"> </i>Product List
+            <CardTitle tag="h5" className="d-flex justify-content-between">
+              <span>
+                <i className="bi bi-bag-fill me-2"> </i>Product List
+              </span>
+              <div className="d-flex justify-content-end">
+                <Link to={"create"}>
+                  <Button className="btn" color="success">
+                    Add Product
+                  </Button>
+                </Link>
+              </div>
             </CardTitle>
             <Table className="no-wrap mt-3 align-middle" responsive borderless>
               <thead>
@@ -193,13 +202,6 @@ export default function Products() {
                   : "No Products Exist"}
               </tbody>
             </Table>
-            <div className="d-flex justify-content-start justify-content-lg-end">
-              <Link to={"create"}>
-                <Button className="btn" color="success">
-                  Add Product
-                </Button>
-              </Link>
-            </div>
           </CardBody>
         </Card>
       </div>

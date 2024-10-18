@@ -14,6 +14,12 @@ import EditProduct from "./Admin/EditProduct.js";
 import AddVariant from "./Admin/AddVariant.js";
 import Users from "./Admin/Users.js";
 import Orders from "./Admin/Orders.js";
+import UserLayout from "./layouts/user/UserLayout.js";
+import Group from "./User/Group.js";
+import Customization from "./Admin/Customization.js";
+import AddSlider from "./Admin/AddSlider.js";
+import EditUser from "./Admin/EditUser.js";
+import AddUser from "./Admin/AddUser.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -37,10 +43,15 @@ const App = () => {
       <Routes>
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Navigate to="/home" />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Navigate to="/user" />} />
+        <Route path="/user" element={<UserLayout />}>
+          <Route path="home" element={<Home />} />
+          <Route path="group/:id" element={<Group />} />
+        </Route>
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<Starter />} />
+          <Route path="customization" element={<Customization />} />
+          <Route path="customization/create" element={<AddSlider />} />
           <Route path="products" element={<Products />} />
           <Route path="products/create" element={<AddProduct />} />
           <Route path="products/edit/:id" element={<EditProduct />}>
@@ -50,6 +61,8 @@ const App = () => {
           <Route path="groups/create" element={<AddGroup />} />
           <Route path="groups/edit/:id" element={<EditGroup />} />
           <Route path="users" element={<Users />} />
+          <Route path="users/edit/:id" element={<EditUser />} />
+          <Route path="users/create" element={<AddUser />} />
           <Route path="orders" element={<Orders />} />
 
           <Route path="starter" element={<Starter />} />

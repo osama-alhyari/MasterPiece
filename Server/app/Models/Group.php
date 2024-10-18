@@ -21,4 +21,8 @@ class Group extends Model
     {
         return $this->belongsTo(Group::class, 'parent_id');
     }
+    public function children()
+    {
+        return $this->hasMany(Group::class, 'parent_id');
+    }
 }

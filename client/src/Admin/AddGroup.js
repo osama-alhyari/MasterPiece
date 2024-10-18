@@ -23,9 +23,15 @@ export default function AddGroup() {
     description: "",
     parent_id: "",
   });
+  const token = localStorage.getItem("token");
 
   async function fetchGroups() {
-    const response = await axios.get("http://127.0.0.1:8000/api/group");
+    const response = await axios.get("http://127.0.0.1:8000/api/group", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header
+        "Content-Type": "application/json", // Optional: if you're sending JSON data
+      },
+    });
     setGroups(response.data.Groups);
   }
 
@@ -40,7 +46,6 @@ export default function AddGroup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
     try {
       await axios.post(`http://127.0.0.1:8000/api/group`, groupData, {
         headers: {
@@ -109,11 +114,13 @@ export default function AddGroup() {
                   onChange={handleInputChange}
                 >
                   <option value="">None</option>
-                  {groups.map((group) => (
-                    <option key={group.id} value={group.id}>
-                      {group.name}
-                    </option>
-                  ))}
+                  {groups
+                    ? groups.map((group) => (
+                        <option key={group.id} value={group.id}>
+                          {group.name}
+                        </option>
+                      ))
+                    : null}
                 </Input>
               </FormGroup>
 

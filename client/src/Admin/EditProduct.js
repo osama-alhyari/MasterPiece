@@ -19,9 +19,9 @@ import axios from "axios";
 import EditVariant from "./EditVariant";
 
 export default function EditProduct() {
-  const navigate = useNavigate();
   const { id } = useParams(); // Get product ID from URL params
   const [groups, setGroups] = useState([]);
+  const [render, setRender] = useState(0);
   const [breadcrumbName, setBreadcrumbName] = useState("");
   const [productData, setProductData] = useState({
     name: "",
@@ -31,17 +31,21 @@ export default function EditProduct() {
     image: null, // Store the file object for the image
     currentImage: "", // To store the current image URL
   });
+  const token = localStorage.getItem("token"); // Get the token from localStorage
 
   // Fetch groups on component load
   async function fetchGroups() {
-    const response = await axios.get("http://127.0.0.1:8000/api/group");
+    const response = await axios.get("http://127.0.0.1:8000/api/group", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header
+        "Content-Type": "application/json", // Optional: if you're sending JSON data
+      },
+    });
     setGroups(response.data.Groups);
   }
 
   // Fetch product data by ID on component load
   async function fetchProduct() {
-    const token = localStorage.getItem("token"); // Get the token from localStorage
-
     try {
       const response = await axios.get(
         `http://127.0.0.1:8000/api/adminproduct/${id}`,
@@ -70,7 +74,7 @@ export default function EditProduct() {
   useEffect(() => {
     fetchGroups();
     fetchProduct();
-  }, []);
+  }, [render]);
 
   // Handle text input changes (e.g., name, description)
   const handleInputChange = (e) => {
@@ -151,6 +155,7 @@ export default function EditProduct() {
         text: "Press OK To Continue",
         icon: "success",
       });
+      setRender((p) => p + 1);
     } catch (error) {
       console.error("Error updating product", error);
     }

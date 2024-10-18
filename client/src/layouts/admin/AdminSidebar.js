@@ -110,7 +110,7 @@ const AdminSidebar = () => {
             className="mt-3"
             href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
           >
-            Upgrade To Pro
+            Log Out
           </Button>
         </Nav>
       </div>

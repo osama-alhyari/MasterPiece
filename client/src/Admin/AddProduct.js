@@ -26,10 +26,16 @@ export default function AddProduct() {
     groups: [], // Store selected groups as an array of group IDs
     image: null, // Store the file object for the image
   });
+  const token = localStorage.getItem("token");
 
   // Fetch groups on component load
   async function fetchGroups() {
-    const response = await axios.get("http://127.0.0.1:8000/api/group");
+    const response = await axios.get("http://127.0.0.1:8000/api/group", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header
+        "Content-Type": "application/json", // Optional: if you're sending JSON data
+      },
+    });
     setGroups(response.data.Groups);
   }
 
@@ -70,8 +76,6 @@ export default function AddProduct() {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const token = localStorage.getItem("token");
 
     // Create a FormData object to handle file upload and form fields
     const formData = new FormData();

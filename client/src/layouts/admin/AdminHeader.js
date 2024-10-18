@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Navbar,
@@ -18,6 +18,7 @@ const AdminHeader = () => {
   const showMobilemenu = () => {
     document.getElementById("sidebarArea").classList.toggle("showSidebar");
   };
+
   return (
     <Navbar color="secondary" dark expand="md" className="fix-header">
       <div className="d-flex justify-content-between w-100">
@@ -26,7 +27,7 @@ const AdminHeader = () => {
             <img src="/logos/LogoWhiteMP.png" width="150px" alt="Home"></img>
           </Link>
         </div>
-        <div className="d-lg-none d-flex">
+        <div className="d-lg-none d-flex gap-2">
           <Link
             to="/admin"
             style={{
@@ -57,12 +58,8 @@ const AdminHeader = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem header>Info</DropdownItem>
             <DropdownItem>My Account</DropdownItem>
-            <DropdownItem>Edit Profile</DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>My Balance</DropdownItem>
-            <DropdownItem>Inbox</DropdownItem>
             <DropdownItem>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>

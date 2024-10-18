@@ -85,4 +85,9 @@ class AuthController extends Controller
         }
         return Response::json(["message" => "Wrong Credentials"], 401);
     }
+
+    public function check()
+    {
+        return response()->json(["Message" => "User is logged in"]);
+    }
 }

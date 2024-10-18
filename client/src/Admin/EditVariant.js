@@ -195,7 +195,11 @@ export default function EditVariant({ variant }) {
                       <img
                         src={`http://127.0.0.1:8000/product_images/${image.name}`}
                         alt={`Existing ${image.name}`}
-                        style={{ height: "150px", border: "1px solid black" }}
+                        style={{
+                          height: "150px",
+                          border: "1px solid black",
+                          maxWidth: "250px",
+                        }}
                       />
                       <FormGroup check className="p-0">
                         <Button
@@ -235,7 +239,11 @@ export default function EditVariant({ variant }) {
                       <img
                         src={URL.createObjectURL(image)}
                         alt={`New ${index}`}
-                        style={{ height: "150px" }}
+                        style={{
+                          height: "150px",
+                          maxWidth: "250px",
+                          border: "1px solid black",
+                        }}
                       />
 
                       <FormGroup check className="p-0">

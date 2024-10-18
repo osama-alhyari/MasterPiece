@@ -12,10 +12,14 @@ use App\Models\User;
 class AdminController extends Controller
 {
     //
+    public function check()
+    {
+        return response()->json(["Message" => "User Is An Admin"]);
+    }
 
     public function viewActiveUsers()
     {
-        $users = User::where('is_deleted', 0)->get();
+        $users = User::where('is_deleted', 0)->where('role_id', 2)->withCount('orders')->get();
         return Response::json(["users" => $users], 200);
     }
 

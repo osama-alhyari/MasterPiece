@@ -19,7 +19,7 @@ return new class extends Migration
         });
 
         Schema::table('groups', function (Blueprint $table) {
-            $table->foreign('parent_id')->references('id')->on('groups');
+            $table->foreign('parent_id')->references('id')->on('groups')->onDelete('set null');
         });
     }
 

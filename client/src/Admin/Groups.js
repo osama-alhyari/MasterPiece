@@ -15,9 +15,15 @@ import Swal from "sweetalert2"; // Import SweetAlert2
 
 export default function Groups() {
   const [groups, setGroups] = useState([]);
+  const token = localStorage.getItem("token");
 
   async function fetchGroups() {
-    const response = await axios.get("http://127.0.0.1:8000/api/group");
+    const response = await axios.get("http://127.0.0.1:8000/api/group", {
+      headers: {
+        Authorization: `Bearer ${token}`, // Set the Authorization header
+        "Content-Type": "application/json", // Optional: if you're sending JSON data
+      },
+    });
     setGroups(response.data.Groups);
   }
 
@@ -27,7 +33,6 @@ export default function Groups() {
 
   // Delete group function
   const handleDelete = (groupId) => {
-    const token = localStorage.getItem("token");
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -68,11 +73,20 @@ export default function Groups() {
           <BreadcrumbItem active>Groups</BreadcrumbItem>
         </Breadcrumb>
         <Card>
-          <CardTitle tag="h5" className="p-3 mb-0">
-            <i className="bi bi-hdd-stack me-2"> </i>
-            Groups
-          </CardTitle>
           <CardBody>
+            <CardTitle tag="h5" className="d-flex justify-content-between">
+              <span>
+                <i className="bi bi-hdd-stack me-2"> </i>
+                Groups
+              </span>
+              <div className="d-flex justify-content-end">
+                <Link to={"create"}>
+                  <Button className="btn" color="success">
+                    Add Group
+                  </Button>
+                </Link>
+              </div>
+            </CardTitle>
             <Table responsive borderless className="">
               <thead>
                 <tr>
@@ -83,42 +97,41 @@ export default function Groups() {
                 </tr>
               </thead>
               <tbody>
-                {groups.map((group) => {
-                  return (
-                    <tr key={group.id} className="border-top">
-                      <td className="text-center">{group.name}</td>
-                      <td className="text-center">{group.products_count}</td>
-                      <td className="text-center">
-                        {group.group ? group.group.name : "*No Parent Group*"}
-                      </td>
-                      <td className="text-center d-flex flex-lg-row flex-column gap-1 justify-content-center">
-                        <Link to={`edit/${group.id}`}>
-                          <Button className="btn" color="primary">
-                            <i className="bi bi-pencil-square"></i>
-                          </Button>
-                        </Link>
-                        <Link>
-                          <Button
-                            className="btn"
-                            color="danger"
-                            onClick={() => handleDelete(group.id)} // Handle delete action
-                          >
-                            <i className="bi bi-trash3-fill"></i>
-                          </Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  );
-                })}
+                {groups
+                  ? groups.map((group) => {
+                      return (
+                        <tr key={group.id} className="border-top">
+                          <td className="text-center">{group.name}</td>
+                          <td className="text-center">
+                            {group.products_count}
+                          </td>
+                          <td className="text-center">
+                            {group.group
+                              ? group.group.name
+                              : "*No Parent Group*"}
+                          </td>
+                          <td className="text-center d-flex flex-lg-row flex-column gap-1 justify-content-center">
+                            <Link to={`edit/${group.id}`}>
+                              <Button className="btn" color="primary">
+                                <i className="bi bi-pencil-square"></i>
+                              </Button>
+                            </Link>
+                            <Link>
+                              <Button
+                                className="btn"
+                                color="danger"
+                                onClick={() => handleDelete(group.id)} // Handle delete action
+                              >
+                                <i className="bi bi-trash3-fill"></i>
+                              </Button>
+                            </Link>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  : "No Groups Exist"}
               </tbody>
             </Table>
-            <div className="d-flex justify-content-start justify-content-lg-end">
-              <Link to={"create"}>
-                <Button className="btn" color="success">
-                  Add Group
-                </Button>
-              </Link>
-            </div>
           </CardBody>
         </Card>
       </Col>

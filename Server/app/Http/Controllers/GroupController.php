@@ -31,7 +31,7 @@ class GroupController extends Controller
         return response()->json(["Success" => "Group Created Successfully", "Group" => $group]);
     }
 
-    public function viewGroups()
+    public function viewGroupsAdmin()
     {
         $groups = Group::withCount('products')->with('group')->get();
         if ($groups->isEmpty()) {
@@ -40,9 +40,19 @@ class GroupController extends Controller
         return response()->json(["Groups" => $groups]);
     }
 
+    public function viewGroupsUser()
+    {
+        $groups = Group::with('children.children') // Load recursive children
+            ->withCount('products') // Count the products
+            ->whereNull('parent_id') // Only fetch top-level groups
+            ->get();
+
+        return response()->json(["Groups" => $groups]);
+    }
+
     public function viewGroup(string $id)
     {
-        $group = Group::find($id);
+        $group = Group::where('id', $id)->with('products')->get();
         if (!$group) {
             return response()->json(["Error" => "Group Does Not Exist"]);
         }
