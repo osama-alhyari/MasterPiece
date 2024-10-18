@@ -31,7 +31,7 @@ class SliderController extends Controller
             $slider->group_id = $request->group_id;
         }
         $slider_image = time() . "." . $request->image->extension();
-        $slider->image = $slider_image;
+        $slider->name = $slider_image;
         $slider->save();
         // Move the product cover image to the appropriate directory
         $request->image->move(public_path('slider_images'), $slider_image);
@@ -40,7 +40,7 @@ class SliderController extends Controller
 
     public function index()
     {
-        $sliders = Slider::all();
+        $sliders = Slider::with('product')->with('group')->get();
         return response()->json(["Sliders" => $sliders]);
     }
 

@@ -20,6 +20,7 @@ import Customization from "./Admin/Customization.js";
 import AddSlider from "./Admin/AddSlider.js";
 import EditUser from "./Admin/EditUser.js";
 import AddUser from "./Admin/AddUser.js";
+import EditSlider from "./Admin/EditSlider.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="" element={<Starter />} />
           <Route path="customization" element={<Customization />} />
           <Route path="customization/create" element={<AddSlider />} />
+          <Route path="customization/edit/:id" element={<EditSlider />} />
           <Route path="products" element={<Products />} />
           <Route path="products/create" element={<AddProduct />} />
           <Route path="products/edit/:id" element={<EditProduct />}>

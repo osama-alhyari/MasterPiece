@@ -92,7 +92,7 @@ Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user m
 
     //Slider Routes
 
-    Route::get('/sliders/{id}', [SliderController::class, 'show'])->name('sliders.show');      // Get single slider
+    Route::get('/sliders/{id}', [SliderController::class, 'show'])->name('sliders.show');     // Get single slider
     Route::post('/sliders', [SliderController::class, 'createSlider'])->name('sliders.store'); // Create a slider
     Route::put('/sliders/{id}', [SliderController::class, 'update'])->name('sliders.update');  // Update a slider
     Route::delete('/sliders/{id}', [SliderController::class, 'destroy'])->name('sliders.destroy');

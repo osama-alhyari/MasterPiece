@@ -14,32 +14,42 @@ import {
   FormText,
   Alert,
 } from "reactstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function AddSlider() {
+export default function EditSlider() {
   const navigate = useNavigate();
+  const { id } = useParams(); // Get slider ID from URL params
   const [groups, setGroups] = useState([]);
   const [products, setProducts] = useState([]);
   const [sliderData, setSliderData] = useState({
     group_id: null, // Store selected group ID
     product_id: null, // Store selected product ID
     image: null, // Store the file object for the slider image
+    currentImage: "", // Store current image URL
   });
 
   const token = localStorage.getItem("token");
 
-  // Fetch groups and products on component load
-  async function fetchGroupsAndProducts() {
+  // Fetch groups, products, and slider data on component load
+  async function fetchGroupsProductsAndSlider() {
     try {
       const groupResponse = await axios.get("http://127.0.0.1:8000/api/group", {
         headers: {
-          Authorization: `Bearer ${token}`, // Set the Authorization header with the token
+          Authorization: `Bearer ${token}`,
         },
       });
       const productResponse = await axios.get(
-        "http://127.0.0.1:8000/api/adminproduct", // Adjust this endpoint to match your API
+        "http://127.0.0.1:8000/api/adminproduct",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const sliderResponse = await axios.get(
+        `http://127.0.0.1:8000/api/sliders/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -48,8 +58,14 @@ export default function AddSlider() {
       );
       setGroups(groupResponse.data.Groups);
       setProducts(productResponse.data.Products);
+      setSliderData({
+        group_id: sliderResponse.data.Slider.group_id,
+        product_id: sliderResponse.data.Slider.product_id,
+        currentImage: sliderResponse.data.Slider.name, // Store current image URL
+        image: null, // Initially no new image
+      });
     } catch (error) {
-      console.error("Error fetching groups or products", error);
+      console.error("Error fetching groups, products, or slider", error);
       if (error.response && error.response.status === 403) {
         Swal.fire(
           "Unauthorized",
@@ -62,7 +78,7 @@ export default function AddSlider() {
   }
 
   useEffect(() => {
-    fetchGroupsAndProducts();
+    fetchGroupsProductsAndSlider();
   }, []);
 
   // Handle group selection, clear product if a group is selected
@@ -102,22 +118,21 @@ export default function AddSlider() {
     if (sliderData.product_id) {
       formData.append("product_id", sliderData.product_id); // Send product_id if selected
     }
-    formData.append("image", sliderData.image); // Append the image file
+    if (sliderData.image) {
+      formData.append("image", sliderData.image); // Append new image if selected
+    }
+    formData.append("_method", "PUT"); // Laravel requires PUT for update
 
     try {
-      const response = await axios.post(
-        `http://127.0.0.1:8000/api/sliders`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Ensure that the user is authenticated
-            "Content-Type": "multipart/form-data", // Ensure multipart/form-data for file upload
-          },
-        }
-      );
-      navigate("/admin/sliders");
+      await axios.post(`http://127.0.0.1:8000/api/sliders/${id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      navigate("/admin/customization");
     } catch (error) {
-      console.error("Error creating slider", error);
+      console.error("Error updating slider", error);
     }
   };
 
@@ -132,13 +147,13 @@ export default function AddSlider() {
           <BreadcrumbItem>
             <Link to="/admin/customization">Sliders</Link>
           </BreadcrumbItem>
-          <BreadcrumbItem active>Add Slider</BreadcrumbItem>
+          <BreadcrumbItem active>Edit Slider</BreadcrumbItem>
         </Breadcrumb>
 
         {/* Card for the form */}
         <Card>
           <CardTitle tag="h6" className="border-bottom p-3 mb-0">
-            Create New Slider
+            Edit Slider
           </CardTitle>
           <CardBody>
             <Form onSubmit={handleSubmit}>
@@ -146,6 +161,17 @@ export default function AddSlider() {
               <Alert color="info">
                 You can either choose a product or a group, but not both.
               </Alert>
+
+              {/* Display current slider image */}
+              {sliderData.currentImage && (
+                <div className="mb-3">
+                  <img
+                    src={`http://127.0.0.1:8000/slider_images/${sliderData.currentImage}`}
+                    alt="Slider"
+                    style={{ maxWidth: "200px" }}
+                  />
+                </div>
+              )}
 
               {/* Group dropdown */}
               <FormGroup>
@@ -187,18 +213,20 @@ export default function AddSlider() {
 
               {/* Image upload */}
               <FormGroup>
-                <Label for="image">Slider Image</Label>
+                <Label for="image">Upload New Slider Image (optional)</Label>
                 <Input
                   id="image"
                   name="image"
                   type="file"
                   onChange={handleFileChange}
                 />
-                <FormText>*Upload an image for this slider.</FormText>
+                <FormText>
+                  *Upload a new image to replace the existing one.
+                </FormText>
               </FormGroup>
 
               <Button color="success" type="submit">
-                Add Slider
+                Save Changes
               </Button>
             </Form>
           </CardBody>
