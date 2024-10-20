@@ -82,7 +82,7 @@ class ProductController extends Controller
 
     public function viewProductIfAvailable(string $id)
     {
-        $product = Product::where('is_available', 1)->with(['variants.images'])->find($id);
+        $product = Product::where('is_available', 1)->with(['variants.images', 'groups'])->find($id);
         if ($product === null) {
             return response()->json(["Error" => "Product Doesnt Exist"]);
         }

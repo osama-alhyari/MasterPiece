@@ -70,23 +70,7 @@ class OrderController extends Controller
         return response()->json(["Orders" => $orders]);
     }
 
-    public function viewOrder(string $id)
-    {
-        $order = Order::with(['variants.product'])->find($id);
-        if (!$order) {
-            return response()->json(["Error" => "Order Does Not Exist"]);
-        }
-        return response()->json(["Order" => $order]);
-    }
 
-    public function viewOrdersOfUser(string $id)
-    {
-        $orders = Order::where('user_id', $id)->get();
-        if (!$orders) {
-            return response()->json(["Error" => "User Did Not Make Any Orders"]);
-        }
-        return response()->json(["Orders" => $orders]);
-    }
 
     public function changeOrderStatus(Request $request, string $id)
     {
@@ -103,4 +87,22 @@ class OrderController extends Controller
         return response()->json(["Message" => "Order Deleted Successfully"]);
     }
 
+    public function viewMyOrders(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $orders = Order::where('user_id', $user_id)->get();
+        return response()->json(["Orders" => $orders]);
+    }
+
+    public function viewOrder(string $id)
+    {
+        $order = Order::with(['variants.product'])->find($id);
+        return response()->json(["Order" => $order]);
+    }
+
+    public function viewOrdersOfUser(string $id)
+    {
+        $orders = Order::where('user_id', $id)->get();
+        return response()->json(["Orders" => $orders]);
+    }
 }

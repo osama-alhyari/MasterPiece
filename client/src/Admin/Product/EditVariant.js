@@ -281,6 +281,7 @@ export default function EditVariant({ variant }) {
             <FormGroup>
               <Label for="new_images">Upload New Images</Label>
               <Input
+                accept="image/*"
                 id="new_images"
                 name="new_images"
                 type="file"

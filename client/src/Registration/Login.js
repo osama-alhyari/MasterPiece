@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import axios from "axios";
@@ -6,6 +6,24 @@ import Swal from "sweetalert2";
 
 export default function Login() {
   const navigate = useNavigate();
+
+  async function check() {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.get(`http://127.0.0.1:8000/api/check/user`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      navigate("/");
+    } catch (e) {
+      console.log("User is not signed in, Please Log In");
+    }
+  }
+  useEffect(() => {
+    check();
+  }, []);
   // State for form fields
   const [formData, setFormData] = useState({
     email: "",

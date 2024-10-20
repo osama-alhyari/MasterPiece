@@ -182,6 +182,7 @@ export default function AddProduct() {
               <FormGroup>
                 <Label for="image">Product Image</Label>
                 <Input
+                  accept="image/*"
                   id="image"
                   name="image"
                   type="file"

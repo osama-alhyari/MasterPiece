@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Collapse,
@@ -38,6 +38,12 @@ export default function UserHeader({ groups }) {
     check();
   }, []);
 
+  const navigate = useNavigate();
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/");
+  }
+
   return (
     <Navbar color="dark" dark expand="md" className="fix-header">
       <div className="hstack gap-2">
@@ -54,13 +60,13 @@ export default function UserHeader({ groups }) {
           )}
         </Button>
         <div className="d-lg-block d-none pe-3">
-          <Link to="/user">
+          <Link to="/">
             <img src="/logos/LogoWhiteMP.png" width="150px" alt="Home"></img>
           </Link>
         </div>
         <div className="d-lg-none d-flex gap-2">
           <Link
-            to="/admin"
+            to="/"
             style={{
               display: "flex",
               justifyContent: "center",
@@ -118,13 +124,23 @@ export default function UserHeader({ groups }) {
             : null}
         </Nav>
         <div className="d-flex gap-2">
-          <Button color="light">
-            <i class="bi bi-person-circle"></i>
-          </Button>
+          <Link to={"/profile"}>
+            <Button color="light">
+              <i class="bi bi-person-circle"></i>
+            </Button>
+          </Link>
           <Button color="light">
             <i class="bi bi-cart4"></i>
           </Button>
-          <Button color="light">{loggedIn ? "Logout" : "Log In"}</Button>
+          {loggedIn ? (
+            <Button color="light" onClick={handleLogout}>
+              Logout
+            </Button>
+          ) : (
+            <Button color="light" onClick={() => navigate("/login")}>
+              Log In
+            </Button>
+          )}
         </div>
       </Collapse>
     </Navbar>

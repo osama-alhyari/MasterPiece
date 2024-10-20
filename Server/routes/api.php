@@ -69,6 +69,8 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
     Route::patch('incrementItem/{id}', [CartController::class, 'incrementItem']);
     Route::patch('decrementItem/{id}', [CartController::class, 'decrementItem']);
     Route::delete('deleteItem/{id}', [CartController::class, 'removeItem']);
+    Route::delete('clearcart', [CartController::class, 'clearCart']);
+    Route::get('viewcart', [CartController::class, 'viewCart']);
 
     //////////////////////////
 
@@ -76,6 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
 
     Route::post('/createorder', [OrderController::class, 'createOrder']);
     Route::get('/order/{id}', [OrderController::class, 'viewOrder']);
+    Route::get('/myorders', [OrderController::class, 'viewMyOrdesr']);
 
     ////////////////////////////
 
@@ -109,12 +112,14 @@ Route::middleware(['auth:sanctum', 'IsAdmin'])->group(function () {     //user m
 
     //////////////
 
-    //User Related Routes
+    //User Profiles Routes
 
     Route::get('view_user/{id}', [AdminController::class, 'viewUser']);
+    Route::get('view_user', [AdminController::class, 'viewSelf']);
     Route::get('active_users', [AdminController::class, 'viewActiveUsers']);
     Route::get('all_users', [AdminController::class, 'viewAllUsers']);
     Route::put('admin_updates_profile/{id}', [AdminController::class, 'adminUpdatesProfile']);
+    Route::put('admin_updates_profile', [AdminController::class, 'adminUpdatesSelf']);
     Route::delete('admin_deletes_user/{id}', [AdminController::class, 'adminDeletesCustomer']);
 
     //////////////    

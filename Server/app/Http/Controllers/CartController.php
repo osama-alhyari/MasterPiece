@@ -150,4 +150,33 @@ class CartController extends Controller
             return response()->json(["Message" => "Failed to Delete Item", "Error" => $e->getMessage()], 500);
         }
     }
+
+    public function clearCart(Request $request)
+    {
+        $user_id = $request->user()->id;
+        DB::beginTransaction();
+        try {
+            $cart = Cart::find($user_id);
+            $cart->items = 0;
+            $cart->total = 0;
+            $cart->save();
+            DB::table('carts_variants')
+                ->where('cart_id', $cart->id)
+                ->delete();
+            DB::commit();
+            return response()->json(["Message" => "Cart Cleared"]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(["Message" => "Failed to Clear Cart", "Error" => $e->getMessage()], 500);
+        }
+    }
+
+    public function viewCart(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $cart = Cart::find($user_id);
+        $cart_items = DB::table('carts_variants')
+            ->where('cart_id', $cart->id)->get();
+        return response()->json(["Cart" => $cart, "Items" => $cart_items]);
+    }
 }

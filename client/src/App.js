@@ -21,6 +21,11 @@ import AddSlider from "./Admin/Customization/AddSlider.js";
 import EditUser from "./Admin/User/EditUser.js";
 import AddUser from "./Admin/User/AddUser.js";
 import EditSlider from "./Admin/Customization/EditSlider.js";
+import Slider from "./User/Slider.js";
+import AdminProfile from "./Admin/AdminProfile.js";
+import Profile from "./User/Profile.js";
+import Cart from "./User/Cart.js";
+import Product from "./User/Product.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -44,13 +49,20 @@ const App = () => {
       <Routes>
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Navigate to="/user" />} />
-        <Route path="/user" element={<UserLayout />}>
-          <Route path="home" element={<Home />} />
-          <Route path="group/:id" element={<Group />} />
+        {/* User Routes */}
+        <Route path="/" element={<UserLayout />}>
+          <Route path="" element={<Home />} />
+          <Route path="/group/:id" element={<Group />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/checkout" element={<CheckOut />} />
         </Route>
+        {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="" element={<Starter />} />
+          <Route path="profile" element={<AdminProfile />} />
           <Route path="customization" element={<Customization />} />
           <Route path="customization/create" element={<AddSlider />} />
           <Route path="customization/edit/:id" element={<EditSlider />} />

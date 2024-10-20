@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -11,7 +11,13 @@ import {
 } from "reactstrap";
 
 const AdminHeader = () => {
+  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = React.useState(false);
+
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/user/home");
+  }
 
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
@@ -58,9 +64,15 @@ const AdminHeader = () => {
             ></img>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem>My Account</DropdownItem>
+            <DropdownItem
+              onClick={() => {
+                navigate("/admin/profile");
+              }}
+            >
+              My Account
+            </DropdownItem>
             <DropdownItem divider />
-            <DropdownItem>Logout</DropdownItem>
+            <DropdownItem onClick={handleLogout}>Logout</DropdownItem>
           </DropdownMenu>
         </Dropdown>
       </div>

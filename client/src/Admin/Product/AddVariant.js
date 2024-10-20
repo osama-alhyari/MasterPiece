@@ -134,6 +134,7 @@ export default function AddVariant() {
             <FormGroup>
               <Label for="images">Variant Images</Label>
               <Input
+                accept="image/*"
                 id="images"
                 name="images"
                 type="file"

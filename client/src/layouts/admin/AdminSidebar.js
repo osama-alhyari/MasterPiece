@@ -1,5 +1,5 @@
 import { Button, Nav, NavItem } from "reactstrap";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navigation = [
   {
@@ -70,6 +70,12 @@ const AdminSidebar = () => {
   };
   let location = useLocation();
 
+  const navigate = useNavigate();
+  function handleLogout() {
+    localStorage.clear();
+    navigate("/user/home");
+  }
+
   return (
     <div>
       <div className="d-flex align-items-center"></div>
@@ -108,7 +114,7 @@ const AdminSidebar = () => {
             tag="a"
             target="_blank"
             className="mt-3"
-            href="https://wrappixel.com/templates/materialpro-react-admin/?ref=33"
+            onClick={handleLogout}
           >
             Log Out
           </Button>

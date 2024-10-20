@@ -84,4 +84,49 @@ class AdminController extends Controller
     {
         return Response::json(["user" => User::find($id)]);
     }
+
+    public function viewSelf(Request $request)
+    {
+        return Response::json(["user" => User::find($request->user()->id)]);
+    }
+
+    public function adminUpdatesSelf(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'password' => [
+                'nullable',
+                'string',
+                'min:8',              // Minimum length of 8 characters
+                'regex:/[a-z]/',      // Must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // Must contain at least one uppercase letter
+                'regex:/[0-9]/',      // Must contain at least one digit
+                'regex:/[@$!%*#?&]/', // Must contain a special character
+            ],
+            'name' => 'required|string|max:40',
+            'phone' => 'required|digits:10',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::json([
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $id = $request->user()->id;
+        if ($request->password) {
+            User::find($id)->update([
+                'name' => $request->name,
+                'phone' => $request->phone,
+                'password' => Hash::make($request->password)
+            ]);
+        } else {
+            User::find($id)->update([
+                'name' => $request->name,
+                'phone' => $request->phone
+            ]);
+        }
+
+        return Response::json(['message' => "Account Updated", 'user' => User::find($id)], 200);
+    }
 }

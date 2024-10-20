@@ -262,6 +262,7 @@ export default function EditProduct() {
               {/* Image upload */}
               <FormGroup>
                 <Input
+                  accept="image/*"
                   id="image"
                   name="image"
                   type="file"
