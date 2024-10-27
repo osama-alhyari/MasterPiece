@@ -110,12 +110,15 @@ const AdminSidebar = () => {
             </NavItem>
           ))}
           <Button
-            color="danger"
-            tag="a"
-            target="_blank"
+            color="secondary"
             className="mt-3"
-            onClick={handleLogout}
+            onClick={() => {
+              navigate("/");
+            }}
           >
+            Visit Site
+          </Button>
+          <Button color="danger" className="mt-3" onClick={handleLogout}>
             Log Out
           </Button>
         </Nav>

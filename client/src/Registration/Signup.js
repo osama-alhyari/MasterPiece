@@ -190,11 +190,15 @@ export default function Signup() {
         </FormGroup>
 
         <div className="w-100 d-flex gap-4">
-          <Link to={"/login"}>
-            <Button className="btn" color="primary" size="md">
-              Already Have An Account?
-            </Button>
-          </Link>
+          <Button
+            className="btn"
+            color="primary"
+            size="md"
+            onClick={() => navigate("/register")}
+            type="button"
+          >
+            Already Have An Account?
+          </Button>
           <Button className="btn w-100" color="success" size="lg" type="submit">
             Register
           </Button>

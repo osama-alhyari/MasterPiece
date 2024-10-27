@@ -7,6 +7,23 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 export default function UserLayout() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  async function check() {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.get("http://127.0.0.1:8000/api/check/admin", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setLoggedIn(true);
+    } catch (e) {
+      setLoggedIn(false);
+    }
+  }
+
+  useEffect(() => {
+    check();
+  }, [loggedIn]);
+
   const [groups, setGroups] = useState([]);
   async function fetchGroups() {
     const response = await axios.get("http://127.0.0.1:8000/api/user/group");
@@ -19,19 +36,15 @@ export default function UserLayout() {
   return (
     <main>
       {/********header**********/}
-      <UserHeader groups={groups} />
-      <div className="pageWrapper d-lg-flex">
-        {/********Sidebar**********/}
-
-        {/********Content Area**********/}
-        <div className="contentArea">
-          {/********Middle Content**********/}
-          <Container className="p-4" style={{ backgroundColor: "black" }} fluid>
-            <Outlet />
-          </Container>
-          <UserFooter groups={groups} />
-        </div>
-      </div>
+      <UserHeader
+        groups={groups}
+        loggedIn={loggedIn}
+        setLoggedIn={setLoggedIn}
+      />
+      <Container className="p-4" style={{ backgroundColor: "black" }} fluid>
+        <Outlet context={[loggedIn]} />
+      </Container>
+      <UserFooter groups={groups} />
     </main>
   );
 }

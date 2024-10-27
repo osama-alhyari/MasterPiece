@@ -1,6 +1,15 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import {
+  Badge,
+  Card,
+  CardBody,
+  CardImg,
+  CardText,
+  CardTitle,
+} from "reactstrap";
+import ProductsComponent from "./ProductsComponent";
 
 export default function Group() {
   const { id } = useParams();
@@ -16,15 +25,9 @@ export default function Group() {
   }, [id]);
 
   return (
-    <>
-      <h1 className="text-white">{group ? group.name : null}</h1>
-      <h3 className="text-white">{group ? group.description : null}</h3>
-      <h4 className="text-white">Products</h4>
-      {group
-        ? group.products.map((product) => {
-            return <h6 className="text-white">{product.name}</h6>;
-          })
-        : null}
-    </>
+    <div style={{ backgroundColor: "#1c1c1e" }}>
+      <h1 className=" text-white">{group?.name}</h1>
+      <ProductsComponent group={id} />
+    </div>
   );
 }

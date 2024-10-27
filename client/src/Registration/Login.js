@@ -134,11 +134,15 @@ export default function Login() {
         </FormGroup>
 
         <div className="w-100 d-flex gap-4">
-          <Link to={"/register"}>
-            <Button className="btn" color="primary" size="md">
-              Don't Have An Account?
-            </Button>
-          </Link>
+          <Button
+            className="btn"
+            color="primary"
+            size="md"
+            onClick={() => navigate("/register")}
+            type="button"
+          >
+            Don't Have An Account?
+          </Button>
           <Button className="btn w-100" color="success" size="lg" type="submit">
             Login
           </Button>

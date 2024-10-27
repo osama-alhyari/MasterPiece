@@ -13,34 +13,17 @@ import {
   Button,
 } from "reactstrap";
 
-export default function UserHeader({ groups }) {
+export default function UserHeader({ groups, loggedIn, setLoggedIn }) {
   const [isOpen, setIsOpen] = React.useState(false);
-
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const Handletoggle = () => {
     setIsOpen(!isOpen);
   };
 
-  async function check() {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.get("http://127.0.0.1:8000/api/check/admin", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setLoggedIn(true);
-    } catch (e) {
-      setLoggedIn(false);
-    }
-  }
-
-  useEffect(() => {
-    check();
-  }, []);
-
   const navigate = useNavigate();
   function handleLogout() {
     localStorage.clear();
+    setLoggedIn(false);
     navigate("/");
   }
 
@@ -124,23 +107,30 @@ export default function UserHeader({ groups }) {
             : null}
         </Nav>
         <div className="d-flex gap-2">
-          <Link to={"/profile"}>
-            <Button color="light">
-              <i class="bi bi-person-circle"></i>
-            </Button>
-          </Link>
-          <Button color="light">
+          <Button
+            color="light"
+            onClick={() => {
+              loggedIn ? navigate("/profile") : navigate("/login");
+            }}
+          >
+            <i class="bi bi-person-circle"></i>
+          </Button>
+          <Button
+            color="light"
+            onClick={() => {
+              loggedIn ? navigate("/cart") : navigate("/login");
+            }}
+          >
             <i class="bi bi-cart4"></i>
           </Button>
-          {loggedIn ? (
-            <Button color="light" onClick={handleLogout}>
-              Logout
-            </Button>
-          ) : (
-            <Button color="light" onClick={() => navigate("/login")}>
-              Log In
-            </Button>
-          )}
+          <Button
+            color="light"
+            onClick={() => {
+              loggedIn ? handleLogout() : navigate("/login");
+            }}
+          >
+            {loggedIn ? "Log Out" : "Log In"}
+          </Button>
         </div>
       </Collapse>
     </Navbar>

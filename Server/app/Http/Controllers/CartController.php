@@ -21,20 +21,20 @@ class CartController extends Controller
             $cart->save();
 
             // Check if the variant is already in the cart
-            $cartVariant = DB::table('carts_variants')
+            $cartVariant = DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->where('variant_id', $id)
                 ->first();
 
             if ($cartVariant) {
                 // If the variant is already in the cart, increment the quantity
-                DB::table('carts_variants')
+                DB::table('cart_variant')
                     ->where('cart_id', $cart->id)
                     ->where('variant_id', $id)
                     ->increment('quantity', $request->quantity);
             } else {
                 // If the variant is not in the cart, attach it with quantity
-                DB::table('carts_variants')->insert([
+                DB::table('cart_variant')->insert([
                     'cart_id' => $cart->id,
                     'variant_id' => $id,
                     'quantity' => $request->quantity
@@ -61,16 +61,16 @@ class CartController extends Controller
             $cart->save();
 
             // If the variant is already in the cart, decrement the quantity by 1
-            $oldCartItem = DB::table('carts_variants')
+            $oldCartItem = DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->where('variant_id', $id)->first();
 
             if ($oldCartItem->quantity == 1) {
-                DB::table('carts_variants')
+                DB::table('cart_variant')
                     ->where('cart_id', $cart->id)
                     ->where('variant_id', $id)->delete();
             } else {
-                DB::table('carts_variants')
+                DB::table('cart_variant')
                     ->where('cart_id', $cart->id)
                     ->where('variant_id', $id)
                     ->decrement('quantity', 1);
@@ -95,20 +95,20 @@ class CartController extends Controller
             $cart->items = $cart->items + 1;
             $cart->save();
 
-            $cartVariant = DB::table('carts_variants')
+            $cartVariant = DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->where('variant_id', $id)
                 ->first();
 
             if ($cartVariant) {
                 // If the variant is already in the cart, increment the quantity
-                DB::table('carts_variants')
+                DB::table('cart_variant')
                     ->where('cart_id', $cart->id)
                     ->where('variant_id', $id)
                     ->increment('quantity', 1);
             } else {
                 // If the variant is not in the cart, attach it with quantity
-                DB::table('carts_variants')->insert([
+                DB::table('cart_variant')->insert([
                     'cart_id' => $cart->id,
                     'variant_id' => $id,
                     'quantity' => 1
@@ -130,7 +130,7 @@ class CartController extends Controller
             $variant = Variant::find($id);
             $user_id = $request->user()->id;
             $cart = Cart::where('user_id', $user_id)->first();
-            $quantity = DB::table('carts_variants')
+            $quantity = DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->where('variant_id', $id)
                 ->first()->quantity;
@@ -138,7 +138,7 @@ class CartController extends Controller
             $cart->items = $cart->items - $quantity;
             $cart->save();
 
-            DB::table('carts_variants')
+            DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->where('variant_id', $id)
                 ->delete();
@@ -160,7 +160,7 @@ class CartController extends Controller
             $cart->items = 0;
             $cart->total = 0;
             $cart->save();
-            DB::table('carts_variants')
+            DB::table('cart_variant')
                 ->where('cart_id', $cart->id)
                 ->delete();
             DB::commit();
@@ -174,9 +174,7 @@ class CartController extends Controller
     public function viewCart(Request $request)
     {
         $user_id = $request->user()->id;
-        $cart = Cart::find($user_id);
-        $cart_items = DB::table('carts_variants')
-            ->where('cart_id', $cart->id)->get();
-        return response()->json(["Cart" => $cart, "Items" => $cart_items]);
+        $cart = Cart::with('variants.product', 'variants.images')->find($user_id);
+        return response()->json(["Cart" => $cart]);
     }
 }

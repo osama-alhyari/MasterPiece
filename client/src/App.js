@@ -1,6 +1,6 @@
 import { Routes } from "react-router-dom";
 
-import { Route, Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { lazy } from "react";
 import Home from "./User/Home.js";
 import AdminLayout from "./layouts/admin/AdminLayout.js";
@@ -21,11 +21,12 @@ import AddSlider from "./Admin/Customization/AddSlider.js";
 import EditUser from "./Admin/User/EditUser.js";
 import AddUser from "./Admin/User/AddUser.js";
 import EditSlider from "./Admin/Customization/EditSlider.js";
-import Slider from "./User/Slider.js";
 import AdminProfile from "./Admin/AdminProfile.js";
 import Profile from "./User/Profile.js";
 import Cart from "./User/Cart.js";
 import Product from "./User/Product.js";
+import CheckOut from "./User/CheckOut.js";
+import ProductsPage from "./User/ProductsPage.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -52,12 +53,12 @@ const App = () => {
         {/* User Routes */}
         <Route path="/" element={<UserLayout />}>
           <Route path="" element={<Home />} />
-          <Route path="/group/:id" element={<Group />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/checkout" element={<CheckOut />} />
+          <Route path="group/:id" element={<Group />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="product/:id" element={<Product />} />
+          <Route path="checkout" element={<CheckOut />} />
         </Route>
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
