@@ -52,10 +52,11 @@ class GroupController extends Controller
 
     public function viewGroup(string $id)
     {
-        $group = Group::where('id', $id)->with('products')->get();
-        if (!$group) {
-            return response()->json(["Error" => "Group Does Not Exist"]);
-        }
+        $group = Group::where('id', $id)
+            ->with(['products' => function ($query) {
+                $query->where('is_available', 1);
+            }])
+            ->get();
         return response()->json(["Group" => $group]);
     }
 

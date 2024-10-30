@@ -41,7 +41,11 @@ export default function UserLayout() {
         loggedIn={loggedIn}
         setLoggedIn={setLoggedIn}
       />
-      <Container className="p-4" style={{ backgroundColor: "black" }} fluid>
+      <Container
+        className="p-4"
+        style={{ backgroundColor: "black", minHeight: "49vh" }}
+        fluid
+      >
         <Outlet context={[loggedIn]} />
       </Container>
       <UserFooter groups={groups} />

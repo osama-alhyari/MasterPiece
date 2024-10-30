@@ -87,6 +87,23 @@ export default function Cart() {
 
   if (!cart) return <div>Loading cart...</div>;
 
+  async function handleOrderCreation() {
+    try {
+      await axios.post(
+        "http://127.0.0.1:8000/api/createorder",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      navigate("/orders");
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   return (
     <div
       className="container mt-4 text-white"
@@ -99,9 +116,9 @@ export default function Cart() {
           {cart.variants.map((variant) => (
             <div
               key={variant.id}
-              className="cart-item d-flex justify-content-between align-items-center border p-3 mb-3"
+              className="d-flex justify-content-between align-items-center p-3 mb-3"
             >
-              <div className="cart-item-details d-flex align-items-center">
+              <div className="d-flex align-items-center">
                 {/* Variant cover image */}
                 <img
                   src={`http://127.0.0.1:8000/product_images/${
@@ -120,46 +137,49 @@ export default function Cart() {
                   </h5>
                   <p>Price per unit: {variant.product.price} JOD</p>
                   <p>
-                    Total price:{" "}
+                    Total price:
                     {variant.product.price * variant.pivot.quantity} JOD
                   </p>
                 </div>
               </div>
 
               {/* Quantity increment/decrement */}
-              <div className="quantity-controls d-flex align-items-center">
-                <InputGroup className="quantity-input">
-                  <InputGroupText
-                    onClick={() =>
-                      handleQuantityChange(variant.id, "decrement")
-                    }
-                    style={{ cursor: "pointer" }}
-                  >
-                    -
-                  </InputGroupText>
-                  <Input
-                    type="number"
-                    value={variant.pivot.quantity}
-                    readOnly
-                  />
-                  <InputGroupText
-                    onClick={() =>
-                      handleQuantityChange(variant.id, "increment")
-                    }
-                    style={{ cursor: "pointer" }}
-                  >
-                    +
-                  </InputGroupText>
-                </InputGroup>
+              <div className="d-flex flex-wrap flex-column">
+                <div style={{ minWidth: "50%", width: "50%" }}>
+                  <InputGroup>
+                    <InputGroupText
+                      onClick={() =>
+                        handleQuantityChange(variant.id, "decrement")
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      -
+                    </InputGroupText>
+                    <Input
+                      type="number"
+                      value={variant.pivot.quantity}
+                      readOnly
+                    />
+                    <InputGroupText
+                      onClick={() =>
+                        handleQuantityChange(variant.id, "increment")
+                      }
+                      style={{ cursor: "pointer" }}
+                    >
+                      +
+                    </InputGroupText>
+                  </InputGroup>
+                </div>
+                <Button
+                  style={{ minWidth: "50%", width: "50%" }}
+                  color="danger"
+                  onClick={() => handleRemoveFromCart(variant.id)}
+                >
+                  Remove
+                </Button>
               </div>
 
               {/* Remove from cart button */}
-              <Button
-                color="danger"
-                onClick={() => handleRemoveFromCart(variant.id)}
-              >
-                Remove
-              </Button>
             </div>
           ))}
 
@@ -176,9 +196,17 @@ export default function Cart() {
 
         {/* Cart summary */}
         <div className="col-md-4 cart-summary">
-          <div className="border p-3">
+          <div className="p-3">
             <h3>Total Items: {cart.items}</h3>
             <h3>Total Price: {cart.total} JOD</h3>
+            <Button
+              color="light"
+              className="mt-3"
+              onClick={handleOrderCreation}
+              disabled={cart.variants.length === 0} // Disable if the cart is already empty
+            >
+              Make Order
+            </Button>
           </div>
         </div>
       </div>

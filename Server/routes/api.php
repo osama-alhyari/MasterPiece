@@ -78,7 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {     //user must be signed
 
     Route::post('/createorder', [OrderController::class, 'createOrder']);
     Route::get('/order/{id}', [OrderController::class, 'viewOrder']);
-    Route::get('/myorders', [OrderController::class, 'viewMyOrdesr']);
+    Route::get('/myorders', [OrderController::class, 'viewMyOrders']);
 
     ////////////////////////////
 

@@ -20,7 +20,7 @@ class OrderController extends Controller
             $cart = Cart::where('user_id', $user->id)->first();
 
             // Check if the cart exists and has items
-            $cartItems = DB::table('carts_variants')->where('cart_id', $cart->id)->get();
+            $cartItems = DB::table('cart_variant')->where('cart_id', $cart->id)->get();
             if ($cartItems->isEmpty()) {
                 return response()->json(['error' => 'Cart is empty'], 400);
             }
@@ -33,9 +33,9 @@ class OrderController extends Controller
             $order->total = $cart->total;
             $order->status = 'Pending';
             $order->save();
-            // Insert each cart item into the orders_variants table
+            // Insert each cart item into the order_variant table
             foreach ($cartItems as $cartItem) {
-                DB::table('orders_variants')->insert([
+                DB::table('order_variant')->insert([
                     'order_id' => $order->id,
                     'variant_id' => $cartItem->variant_id,
                     'quantity' => $cartItem->quantity,
@@ -43,7 +43,7 @@ class OrderController extends Controller
             }
             // return "alooo";
             // Clear the cart's items
-            DB::table('carts_variants')->where('cart_id', $cart->id)->delete();
+            DB::table('cart_variant')->where('cart_id', $cart->id)->delete();
 
             // Reset cart totals
             $cart->items = 0;
@@ -63,10 +63,7 @@ class OrderController extends Controller
 
     public function viewAllOrders()
     {
-        $orders = Order::all();
-        if (!$orders) {
-            return response()->json(["Error" => "No Orders Exist"]);
-        }
+        $orders = Order::with('user')->get();
         return response()->json(["Orders" => $orders]);
     }
 
@@ -96,7 +93,13 @@ class OrderController extends Controller
 
     public function viewOrder(string $id)
     {
-        $order = Order::with(['variants.product'])->find($id);
+        $order = Order::with([
+            'variants.product',
+            'variants.images' => function ($query) {
+                $query->where('is_variant_cover', 1); // Only get images where is_variant_cover is 1
+            }
+        ])->find($id);
+
         return response()->json(["Order" => $order]);
     }
 

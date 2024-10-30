@@ -12,8 +12,11 @@ import {
 } from "reactstrap";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
-export default function EditVariant({ variant }) {
+export default function EditVariant({ variant, product_id, setRender }) {
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
   const [variantData, setVariantData] = useState({
     name: variant.name,
     sku: variant.sku,
@@ -91,7 +94,6 @@ export default function EditVariant({ variant }) {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
 
     // Create a FormData object to send the variant data and images
     const formData = new FormData();
@@ -138,6 +140,39 @@ export default function EditVariant({ variant }) {
       console.error("Error updating variant", error);
     }
   };
+
+  async function handleDeleteVariant() {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(
+            `http://127.0.0.1:8000/api/variant/${variant.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, // Set the Authorization header
+                "Content-Type": "application/json", // Optional: if you're sending JSON data
+              },
+            }
+          );
+          setRender(1);
+        } catch (error) {
+          Swal.fire(
+            "Error!",
+            "There was a problem deleting the product.",
+            "error"
+          );
+        }
+      }
+    });
+  }
 
   return (
     <>
@@ -293,6 +328,9 @@ export default function EditVariant({ variant }) {
 
             <Button color="success" type="submit">
               Save Changes
+            </Button>
+            <Button color="danger" type="button" onClick={handleDeleteVariant}>
+              Delete Variant
             </Button>
           </Form>
         </CardBody>

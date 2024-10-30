@@ -194,7 +194,7 @@ export default function Signup() {
             className="btn"
             color="primary"
             size="md"
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
             type="button"
           >
             Already Have An Account?

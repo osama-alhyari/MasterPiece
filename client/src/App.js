@@ -13,7 +13,7 @@ import AddProduct from "./Admin/Product/AddProduct.js";
 import EditProduct from "./Admin/Product/EditProduct.js";
 import AddVariant from "./Admin/Product/AddVariant.js";
 import Users from "./Admin/User/Users.js";
-import Orders from "./Admin/Orders.js";
+import Orders from "./Admin/Orders/Orders.js";
 import UserLayout from "./layouts/user/UserLayout.js";
 import Group from "./User/Group.js";
 import Customization from "./Admin/Customization/Customization.js";
@@ -21,12 +21,15 @@ import AddSlider from "./Admin/Customization/AddSlider.js";
 import EditUser from "./Admin/User/EditUser.js";
 import AddUser from "./Admin/User/AddUser.js";
 import EditSlider from "./Admin/Customization/EditSlider.js";
-import AdminProfile from "./Admin/AdminProfile.js";
+import AdminProfile from "./Admin/User/AdminProfile.js";
 import Profile from "./User/Profile.js";
 import Cart from "./User/Cart.js";
 import Product from "./User/Product.js";
 import CheckOut from "./User/CheckOut.js";
 import ProductsPage from "./User/ProductsPage.js";
+import Order from "./Admin/Orders/Order.js";
+import MyOrders from "./User/MyOrders.js";
+import MyOrder from "./User/MyOrder.js";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -59,6 +62,8 @@ const App = () => {
           <Route path="products" element={<ProductsPage />} />
           <Route path="product/:id" element={<Product />} />
           <Route path="checkout" element={<CheckOut />} />
+          <Route path="orders" element={<MyOrders />} />
+          <Route path="orders/:id" element={<MyOrder />} />
         </Route>
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
@@ -79,6 +84,7 @@ const App = () => {
           <Route path="users/edit/:id" element={<EditUser />} />
           <Route path="users/create" element={<AddUser />} />
           <Route path="orders" element={<Orders />} />
+          <Route path="orders/:id" element={<Order />} />
 
           <Route path="starter" element={<Starter />} />
           <Route path="about" element={<About />} />

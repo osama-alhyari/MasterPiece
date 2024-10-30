@@ -43,7 +43,7 @@ function Slider() {
   // Redirect to the associated group or product
   const handleRedirect = (group_id, product_id) => {
     if (group_id) {
-      navigate(`/user/group/${group_id}`);
+      navigate(`/group/${group_id}`);
     } else if (product_id) {
       navigate(`/product/${product_id}`);
     }

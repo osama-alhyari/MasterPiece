@@ -287,7 +287,13 @@ export default function EditProduct() {
               </CardTitle>
             </Card>
             {productData.variants.map((variant) => {
-              return <EditVariant variant={variant} />;
+              return (
+                <EditVariant
+                  variant={variant}
+                  product_id={id}
+                  setRender={setRender}
+                />
+              );
             })}
           </>
         ) : null}
