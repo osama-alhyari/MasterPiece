@@ -13,7 +13,7 @@ function Slider() {
   async function fetchSliders() {
     try {
       const response = await axios.get("http://127.0.0.1:8000/api/sliders");
-      setSliders(response.data.Sliders); // Assuming the backend returns a "sliders" array
+      setSliders(response.data.Sliders);
     } catch (error) {
       console.error("Error fetching sliders:", error);
     }
@@ -35,11 +35,6 @@ function Slider() {
     setActiveIndex(nextIndex);
   };
 
-  const goToIndex = (newIndex) => {
-    if (animating) return;
-    setActiveIndex(newIndex);
-  };
-
   // Redirect to the associated group or product
   const handleRedirect = (group_id, product_id) => {
     if (group_id) {
@@ -51,50 +46,51 @@ function Slider() {
 
   return (
     <>
-      <Carousel
-        activeIndex={activeIndex}
-        next={next}
-        previous={previous}
-        className="w-100"
-      >
-        {sliders?.map((slider) => (
-          <CarouselItem
-            onExiting={() => setAnimating(true)}
-            onExited={() => setAnimating(false)}
-            key={slider.id}
-          >
-            {/* Use a div with background image */}
-            <div
-              className="d-flex justify-content-center align-items-end"
-              style={{
-                backgroundImage: `url(http://127.0.0.1:8000/slider_images/${slider.name})`,
-                height: "400px",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
+      <div className="p3">
+        <Carousel
+          activeIndex={activeIndex}
+          next={next}
+          previous={previous}
+          className="w-100"
+        >
+          {sliders?.map((slider) => (
+            <CarouselItem
+              onExiting={() => setAnimating(true)}
+              onExited={() => setAnimating(false)}
+              key={slider.id}
             >
-              <Button
-                color="secondary"
-                onClick={() =>
-                  handleRedirect(slider.group_id, slider.product_id)
-                }
+              <div
+                className="d-flex justify-content-center align-items-end"
+                style={{
+                  backgroundImage: `url(http://127.0.0.1:8000/slider_images/${slider.name})`,
+                  height: "400px",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
               >
-                View
-              </Button>
-            </div>
-          </CarouselItem>
-        ))}
-        <CarouselControl
-          direction="prev"
-          directionText="Previous"
-          onClickHandler={previous}
-        />
-        <CarouselControl
-          direction="next"
-          directionText="Next"
-          onClickHandler={next}
-        />
-      </Carousel>
+                <Button
+                  color="secondary"
+                  onClick={() =>
+                    handleRedirect(slider.group_id, slider.product_id)
+                  }
+                >
+                  View
+                </Button>
+              </div>
+            </CarouselItem>
+          ))}
+          <CarouselControl
+            direction="prev"
+            directionText="Previous"
+            onClickHandler={previous}
+          />
+          <CarouselControl
+            direction="next"
+            directionText="Next"
+            onClickHandler={next}
+          />
+        </Carousel>
+      </div>
     </>
   );
 }

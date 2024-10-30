@@ -88,7 +88,7 @@ class VariantController extends Controller
         return response()->json(["Message" => "Image Deleted"]);
     }
 
-    public function deleteVariant(string $id)
+    public function deleteVariant(string $id) //need to add image deletion from server before deleting variant
     {
         Variant::find($id)->delete();
         return response()->json(["Message" => "Variant Deleted"]);

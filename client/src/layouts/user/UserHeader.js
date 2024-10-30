@@ -68,6 +68,11 @@ export default function UserHeader({ groups, loggedIn, setLoggedIn }) {
 
       <Collapse navbar isOpen={isOpen}>
         <Nav className="me-auto" navbar>
+          <NavItem>
+            <Link to={`/products`} className="nav-link text-white">
+              All Products
+            </Link>
+          </NavItem>
           {groups
             ? groups.map((group, index) => {
                 // Check if the group has children (sub-groups)

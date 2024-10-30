@@ -30,6 +30,7 @@ import ProductsPage from "./User/ProductsPage.js";
 import Order from "./Admin/Orders/Order.js";
 import MyOrders from "./User/MyOrders.js";
 import MyOrder from "./User/MyOrder.js";
+import Test from "./User/Test.jsx";
 
 /****Layouts*****/
 // const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
@@ -63,6 +64,7 @@ const App = () => {
           <Route path="product/:id" element={<Product />} />
           <Route path="checkout" element={<CheckOut />} />
           <Route path="orders" element={<MyOrders />} />
+          <Route path="Test" element={<Test />} />
           <Route path="orders/:id" element={<MyOrder />} />
         </Route>
         {/* Admin Routes */}

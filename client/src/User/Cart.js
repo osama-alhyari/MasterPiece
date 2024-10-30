@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Button, InputGroup, InputGroupText, Input } from "reactstrap";
+import { Button, InputGroup, InputGroupText, Input, Table } from "reactstrap";
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -113,80 +113,100 @@ export default function Cart() {
       <div className="row">
         {/* Cart items list */}
         <div className="col-md-8 cart-list">
-          {cart.variants.map((variant) => (
-            <div
-              key={variant.id}
-              className="d-flex justify-content-between align-items-center p-3 mb-3"
-            >
-              <div className="d-flex align-items-center">
-                {/* Variant cover image */}
-                <img
-                  src={`http://127.0.0.1:8000/product_images/${
-                    variant.images.find((img) => img.is_variant_cover === 1)
-                      ?.name
-                  }`}
-                  alt={variant.name}
-                  width="100px"
-                  className="me-3"
-                />
+          <Table
+            className="no-wrap mt-3 align-middle"
+            responsive
+            borderless
+            dark
+          >
+            <thead>
+              <tr>
+                <th className="">Product</th>
+                <th className="">Variant</th>
+                <th className="text-center">Quantity</th>
+                <th className="">Price Per Unit</th>
+                <th className="">Total</th>
+                <th className="">Actions</th>
+              </tr>
+            </thead>
+            <tbody cl>
+              {cart.variants.map((variant, index) => (
+                <tr key={index} className="border-top">
+                  <td className="">{variant.product.name}</td>
+                  <td className="">{variant.name}</td>
+                  <td className="">
+                    {/*
+  This component uses @tailwindcss/forms
 
-                {/* Product and variant info */}
-                <div>
-                  <h5>
-                    {variant.product.name} ({variant.name})
-                  </h5>
-                  <p>Price per unit: {variant.product.price} JOD</p>
-                  <p>
-                    Total price:
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
+
+  plugins: [require('@tailwindcss/forms')]
+
+  @layer components {
+    .no-spinner {
+      -moz-appearance: textfield;
+    }
+
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+*/}
+
+                    <div>
+                      <label htmlFor="Quantity" className="sr-only">
+                        {" "}
+                        Quantity{" "}
+                      </label>
+
+                      <div className="flex items-center rounded border border-gray-200">
+                        <button
+                          type="button"
+                          className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                        >
+                          &minus;
+                        </button>
+
+                        <input
+                          type="number"
+                          id="Quantity"
+                          value="1"
+                          className="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                        />
+
+                        <button
+                          type="button"
+                          className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
+                        >
+                          &plus;
+                        </button>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="">{variant.product.price} JOD</td>
+                  <td className="">
                     {variant.product.price * variant.pivot.quantity} JOD
-                  </p>
-                </div>
-              </div>
-
-              {/* Quantity increment/decrement */}
-              <div className="d-flex flex-wrap flex-column">
-                <div style={{ minWidth: "50%", width: "50%" }}>
-                  <InputGroup>
-                    <InputGroupText
-                      onClick={() =>
-                        handleQuantityChange(variant.id, "decrement")
-                      }
-                      style={{ cursor: "pointer" }}
+                  </td>
+                  <td className="">
+                    <Button
+                      color="danger"
+                      onClick={() => handleRemoveFromCart(variant.id)}
                     >
-                      -
-                    </InputGroupText>
-                    <Input
-                      type="number"
-                      value={variant.pivot.quantity}
-                      readOnly
-                    />
-                    <InputGroupText
-                      onClick={() =>
-                        handleQuantityChange(variant.id, "increment")
-                      }
-                      style={{ cursor: "pointer" }}
-                    >
-                      +
-                    </InputGroupText>
-                  </InputGroup>
-                </div>
-                <Button
-                  style={{ minWidth: "50%", width: "50%" }}
-                  color="danger"
-                  onClick={() => handleRemoveFromCart(variant.id)}
-                >
-                  Remove
-                </Button>
-              </div>
-
-              {/* Remove from cart button */}
-            </div>
-          ))}
+                      <i class="bi bi-trash3-fill"></i>
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
 
           {/* Clear Cart Button */}
           <Button
             color="warning"
-            className="mt-3"
+            className="mt-3 text-white"
             onClick={handleClearCart}
             disabled={cart.variants.length === 0} // Disable if the cart is already empty
           >
