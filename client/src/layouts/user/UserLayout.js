@@ -11,7 +11,7 @@ export default function UserLayout() {
   async function check() {
     try {
       const token = localStorage.getItem("token");
-      await axios.get("http://127.0.0.1:8000/api/check/admin", {
+      await axios.get("http://127.0.0.1:8000/api/check/user", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLoggedIn(true);
