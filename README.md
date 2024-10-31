@@ -12,23 +12,23 @@
 ## Table of Contents
 - [Project Philosophy](#project-philosophy)
 - [My Motivation](#my-motivation)
-- [Entity Relatshionship Diagram](#entity-relatshionship-diagram)
-- [Run This Project](##run-this-project)
+- [Entity Relatshionship Diagram](#entity-relationship-diagram)
+- [Run This Project](#run-this-project)
 
 ## 🧐 Project Philosophy
 
 ><br>
-> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.
->
->Functionality: 
--Create and add products.
--Seperate products into categories (Groups).
--Set group images to be showcased on the Landing page.
--Create variants of a product and set stock to them.
--Set cover images for each variant.
--Update and delete products and variants.
--Set images in a slider and the pages redirected to from the slider.
--View orders made by customers to reject or accept them.
+> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.<br>
+><br>
+>Functionality: <br>
+>-Create and add products.<br>
+>-Seperate products into categories (Groups).<br>
+>-Set group images to be showcased on the Landing page.<br>
+>-Create variants of a product and set stock to them.<br>
+>-Set cover images for each variant.<br>
+>-Update and delete products and variants.<br>
+>-Set images in a slider and the pages redirected to from the slider.<br>
+>-View orders made by customers to reject or accept them.<br>
 > <br>
 
 ## 😊 My Motivation
@@ -37,7 +37,7 @@
 >During my university journey, I worked for the company Modern Appliances Kingdom in multiple different roles: from a security systems technician to being a graphic designer and setting up search ad campaigns. After graduating from university and enrolling in the Orange Coding Academy Bootcamp, I was required to hand in a graduation project "My MasterPiece". After some thought about what project I should build. The right thing to do seemed to be to work for Modern Appliances Kingdom in a new role. A Full-Stack Web developer to build the company website from scratch as the lack of control over how the website looks from the previous e-commerce managment tool was becoming a nuisance.
 
 
-## 📈 Entity Relationship Diagram
+## 📈 Entity Relatshionship Diagram
 ![ER Diagram](./images/Erd.png)
 
 ## 🏃‍♂️ Run This Project
