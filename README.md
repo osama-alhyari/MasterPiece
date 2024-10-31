@@ -1,5 +1,9 @@
 # MasterPiece
 
+![Server Larave](https://img.shields.io/badge/Server-Laravel-1f425f.svg) ![Client Reactjs](https://img.shields.io/badge/Client-Reactjs-11cc33.svg)
+![Project Status](https://img.shields.io/badge/Project%20Status-In%20Progress-794c3c.svg) ![Documentation](https://img.shields.io/badge/Documentation-Complete-11ccd3.svg)
+![Language](https://img.shields.io/badge/Languages%20Supported-English-9e45d1.svg)
+
 This is my MasterPiece project that is required from me to graduate from the Orange Coding Academy Bootcamp.
 The project is still being developed. 
 
