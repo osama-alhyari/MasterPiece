@@ -9,21 +9,26 @@
 ![Documentation](https://img.shields.io/badge/Documentation-Complete-11ccd3.svg)
 ![Language](https://img.shields.io/badge/Languages%20Supported-English-9e45d1.svg)
 
+## Table of Contents
+- [Project Philosophy](#project-philosophy)
+- [My Motivation](#my-motivation)
+- [Entity Relatshionship Diagram](#entity-relatshionship-diagram)
+- [Run This Project](##run-this-project)
 
 ## 🧐 Project Philosophy
 
 ><br>
-> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.     <br>
-><br>
->Functionality: <br>
->-Create and add products.<br>
->-Seperate products into categories (Groups).      <br>
->-Set group images to be showcased on the Landing page.    <br> 
->-Create variants of a product and set stock to them.      <br>
->-Set cover images for each variant.     <br>
->-Update and delete products and variants.      <br>
->-Set images in a slider and the pages redirected to from the slider.   <br>   
->-View orders made by customers to reject or accept them.     <br>
+> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.
+>
+>Functionality: 
+-Create and add products.
+-Seperate products into categories (Groups).
+-Set group images to be showcased on the Landing page.
+-Create variants of a product and set stock to them.
+-Set cover images for each variant.
+-Update and delete products and variants.
+-Set images in a slider and the pages redirected to from the slider.
+-View orders made by customers to reject or accept them.
 > <br>
 
 ## 😊 My Motivation
@@ -35,9 +40,7 @@
 ## 📈 Entity Relationship Diagram
 ![ER Diagram](./images/Erd.png)
 
-This is my MasterPiece project that is required from me to graduate from the Orange Coding Academy Bootcamp.
-The project is still being developed. 
-
+## 🏃‍♂️ Run This Project
 Prerequisites to running this project : PHP , Composer , Node.js , NPM , A php development enviroment like XAMPP. A MySQL server : MySql Workbench or PhpMyAdmin will work.
 
 1) First you want to clone this project into a directory.
