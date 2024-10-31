@@ -46,12 +46,12 @@ function Slider() {
 
   return (
     <>
-      <div className="p3">
+      <div className="d-flex justify-content-center w-100">
         <Carousel
           activeIndex={activeIndex}
           next={next}
           previous={previous}
-          className="w-100"
+          style={{ width: "75%" }}
         >
           {sliders?.map((slider) => (
             <CarouselItem
@@ -63,13 +63,14 @@ function Slider() {
                 className="d-flex justify-content-center align-items-end"
                 style={{
                   backgroundImage: `url(http://127.0.0.1:8000/slider_images/${slider.name})`,
-                  height: "400px",
-                  backgroundSize: "cover",
+                  height: "75vh",
+                  backgroundSize: "contain",
+                  backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
                 }}
               >
                 <Button
-                  color="secondary"
+                  color="dark"
                   onClick={() =>
                     handleRedirect(slider.group_id, slider.product_id)
                   }
