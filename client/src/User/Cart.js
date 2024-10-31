@@ -1,26 +1,31 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { Button, InputGroup, InputGroupText, Input, Table } from "reactstrap";
+import { Button, InputGroup, Input, Table } from "reactstrap";
+import Loader from "../layouts/loader/Loader";
 
 export default function Cart() {
   const navigate = useNavigate();
   const [loggedIn] = useOutletContext();
-  if (!loggedIn) {
-    navigate("/login");
-  }
-
   const [cart, setCart] = useState(null); // cart state
   const token = localStorage.getItem("token");
 
   // Fetch cart data
   async function fetchCart() {
-    const response = await axios.get("http://127.0.0.1:8000/api/viewcart", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setCart(response.data.Cart);
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/viewcart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCart(response.data.Cart);
+    } catch (e) {
+      if (!loggedIn) {
+        navigate("/login");
+      } else {
+        console.log(e);
+      }
+    }
   }
 
   useEffect(() => {
@@ -28,7 +33,7 @@ export default function Cart() {
   }, []);
 
   // Update quantity
-  const handleQuantityChange = async (variantId, action) => {
+  async function handleQuantityChange(variantId, action) {
     try {
       if (action === "increment") {
         // Call API to increment quantity
@@ -55,11 +60,17 @@ export default function Cart() {
       }
 
       // Fetch the updated cart after making the API call
-      fetchCart();
+      const response = await axios.get("http://127.0.0.1:8000/api/viewcart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCart(response.data.Cart);
+      console.log("clcikedddd");
     } catch (error) {
       console.error("Error updating cart:", error);
     }
-  };
+  }
 
   // Remove item from cart
   const handleRemoveFromCart = async (variantId) => {
@@ -85,7 +96,7 @@ export default function Cart() {
     }
   };
 
-  if (!cart) return <div>Loading cart...</div>;
+  if (!cart) return <Loader />;
 
   async function handleOrderCreation() {
     try {
@@ -135,56 +146,31 @@ export default function Cart() {
                   <td className="">{variant.product.name}</td>
                   <td className="">{variant.name}</td>
                   <td className="">
-                    {/*
-  This component uses @tailwindcss/forms
-
-  yarn add @tailwindcss/forms
-  npm install @tailwindcss/forms
-
-  plugins: [require('@tailwindcss/forms')]
-
-  @layer components {
-    .no-spinner {
-      -moz-appearance: textfield;
-    }
-
-    .no-spinner::-webkit-outer-spin-button,
-    .no-spinner::-webkit-inner-spin-button {
-      margin: 0;
-      -webkit-appearance: none;
-    }
-  }
-*/}
-
-                    <div>
-                      <label htmlFor="Quantity" className="sr-only">
-                        {" "}
-                        Quantity{" "}
-                      </label>
-
-                      <div className="flex items-center rounded border border-gray-200">
-                        <button
-                          type="button"
-                          className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
-                        >
-                          &minus;
-                        </button>
-
-                        <input
-                          type="number"
-                          id="Quantity"
-                          value="1"
-                          className="h-10 w-16 border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
-                        />
-
-                        <button
-                          type="button"
-                          className="size-10 leading-10 text-gray-600 transition hover:opacity-75"
-                        >
-                          &plus;
-                        </button>
-                      </div>
-                    </div>
+                    <InputGroup>
+                      <Button
+                        color="light"
+                        onClick={() =>
+                          handleQuantityChange(variant.id, "decrement")
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        -
+                      </Button>
+                      <Input
+                        type="number"
+                        value={variant.pivot.quantity}
+                        readOnly
+                      />
+                      <Button
+                        color="light"
+                        onClick={() =>
+                          handleQuantityChange(variant.id, "increment")
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        +
+                      </Button>
+                    </InputGroup>
                   </td>
                   <td className="">{variant.product.price} JOD</td>
                   <td className="">

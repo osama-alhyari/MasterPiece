@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useOutletContext, useParams, useNavigate } from "react-router-dom";
-import { Button, InputGroup, InputGroupText, Input } from "reactstrap";
+import { Button, InputGroup, Input } from "reactstrap";
 import Swal from "sweetalert2";
 import "./ProductPage.css"; // Create a CSS file for custom styling
 
@@ -27,7 +27,6 @@ export default function Product() {
 
   useEffect(() => {
     fetchProduct();
-    console.log(loggedIn);
   }, []);
 
   const handleVariantChange = (variant) => {
@@ -139,19 +138,21 @@ export default function Product() {
           <div className="mt-4 d-flex align-items-center flex-column">
             <h5>Quantity:</h5>
             <InputGroup style={{ width: "50%" }} className="quantity-input">
-              <InputGroupText
+              <Button
+                color="light"
                 onClick={() => handleQuantityChange("decrease")}
                 style={{ cursor: "pointer" }}
               >
                 -
-              </InputGroupText>
+              </Button>
               <Input type="number" value={quantity} readOnly />
-              <InputGroupText
+              <Button
+                color="light"
                 onClick={() => handleQuantityChange("increase")}
                 style={{ cursor: "pointer" }}
               >
                 +
-              </InputGroupText>
+              </Button>
             </InputGroup>
           </div>
 
