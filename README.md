@@ -15,7 +15,7 @@
 - [Entity Relatshionship Diagram](#entity-relationship-diagram)
 - [Run This Project](#run-this-project)
 
-## 🧐 Project Philosophy
+# 🧐 Project Philosophy
 
 ><br>
 > U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.<br>
@@ -31,16 +31,16 @@
 >-View orders made by customers to reject or accept them.<br>
 > <br>
 
-## 😊 My Motivation
+# 😊 My Motivation
 
 
 >During my university journey, I worked for the company Modern Appliances Kingdom in multiple different roles: from a security systems technician to being a graphic designer and setting up search ad campaigns. After graduating from university and enrolling in the Orange Coding Academy Bootcamp, I was required to hand in a graduation project "My MasterPiece". After some thought about what project I should build. The right thing to do seemed to be to work for Modern Appliances Kingdom in a new role. A Full-Stack Web developer to build the company website from scratch as the lack of control over how the website looks from the previous e-commerce managment tool was becoming a nuisance.
 
 
-## 📈 Entity Relatshionship Diagram
+# 📈 Entity Relatshionship Diagram
 ![ER Diagram](./images/Erd.png)
 
-## 🏃‍♂️ Run This Project
+# 🏃‍♂️ Run This Project
 Prerequisites to running this project : PHP , Composer , Node.js , NPM , A php development enviroment like XAMPP. A MySQL server : MySql Workbench or PhpMyAdmin will work.
 
 1) First you want to clone this project into a directory.
