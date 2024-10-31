@@ -13,17 +13,17 @@
 ## 🧐 Project Philosophy
 
 ><br>
-> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.
->
->Functionality: 
--Create and add products.
--Seperate products into categories (Groups).
--Set group images to be showcased on the Landing page.
--Create variants of a product and set stock to them.
--Set cover images for each variant.
--Update and delete products and variants.
--Set images in a slider and the pages redirected to from the slider.
--View orders made by customers to reject or accept them.
+> U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.     <br>
+><br>
+>Functionality: <br>
+>-Create and add products.<br>
+>-Seperate products into categories (Groups).      <br>
+>-Set group images to be showcased on the Landing page.    <br> 
+>-Create variants of a product and set stock to them.      <br>
+>-Set cover images for each variant.     <br>
+>-Update and delete products and variants.      <br>
+>-Set images in a slider and the pages redirected to from the slider.   <br>   
+>-View orders made by customers to reject or accept them.     <br>
 > <br>
 
 ## 😊 My Motivation
