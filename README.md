@@ -9,11 +9,14 @@
 ![Documentation](https://img.shields.io/badge/Documentation-Complete-11ccd3.svg)
 ![Language](https://img.shields.io/badge/Languages%20Supported-English-9e45d1.svg)
 
-## Table of Contents
-- [Project Philosophy](#project-philosophy)
-- [My Motivation](#my-motivation)
-- [Entity Relatshionship Diagram](#entity-relationship-diagram)
-- [Run This Project](#run-this-project)
+<div align="center">
+
+**[PROJECT PHILOSOPHY](https://github.com/osama-alhyari/MasterPiece?tab=readme-ov-file#-project-philosophy) • 
+[MY MOTIVATION](https://github.com/osama-alhyari/MasterPiece?tab=readme-ov-file#-my-motivation) • 
+[ENTITY RELATIONSHIP DIAGRAM](https://github.com/osama-alhyari/MasterPiece?tab=readme-ov-file#-entity-relatshionship-diagram) • 
+[RUN THIS PROJECT](https://github.com/osama-alhyari/MasterPiece?tab=readme-ov-file#%EF%B8%8F-run-this-project)**
+
+</div>
 
 # 🧐 Project Philosophy
 
