@@ -34,16 +34,16 @@
 >-View orders made by customers to reject or accept them.<br>
 >-Manage customers of the store.
 > <br>
->Customer Functionality:
->-View product groups.
->-Browse products based on group.
->-View different variant of a product.
->-Add variants to cart.
->-Change profile data.
->-View and edit cart.
->-Finalize cart and turn it into order.
->-View past orders.
->-View order details.
+>Customer Functionality:<br>
+>-View product groups.<br>
+>-Browse products based on group.<br>
+>-View different variant of a product.<br>
+>-Add variants to cart.<br>
+>-Change profile data.<br>
+>-View and edit cart.<br>
+>-Finalize cart and turn it into order.<br>
+>-View past orders.<br>
+>-View order details.<br>
 
 # 😊 My Motivation
 
