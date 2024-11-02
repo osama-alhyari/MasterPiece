@@ -32,7 +32,7 @@
 >-Update and delete products and variants.<br>
 >-Set images in a slider and the pages redirected to from the slider.<br>
 >-View orders made by customers to reject or accept them.<br>
->-Manage customers of the store.
+>-Manage customers of the store.<br>
 > <br>
 >Customer Functionality:<br>
 >-View product groups.<br>
