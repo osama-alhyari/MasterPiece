@@ -1,6 +1,6 @@
 # MasterPiece
 
-
+<div align="center">
 
 ![Project Logo](./images/logo.png)
 [![Server Larave](https://img.shields.io/badge/Server-Laravel-1f425f.svg)](https://laravel.com/)
@@ -8,6 +8,8 @@
 [![Project Status](https://img.shields.io/badge/Project%20Status-In%20Development-794c3c.svg)](https://github.com/osama-alhyari/MasterPiece/commits/main/)
 ![Documentation](https://img.shields.io/badge/Documentation-In%20Progress-11ccd3.svg)
 ![Language](https://img.shields.io/badge/Languages%20Supported-English-9e45d1.svg)
+
+</div>
 
 <div align="center">
 
