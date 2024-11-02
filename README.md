@@ -23,8 +23,8 @@
 ><br>
 > U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.<br>
 ><br>
->Functionality: <br>
->-Create and add products.<br>
+>Admin Functionality: <br>
+>-Add products for customers to order.<br>
 >-Seperate products into categories (Groups).<br>
 >-Set group images to be showcased on the Landing page.<br>
 >-Create variants of a product and set stock to them.<br>
@@ -32,7 +32,18 @@
 >-Update and delete products and variants.<br>
 >-Set images in a slider and the pages redirected to from the slider.<br>
 >-View orders made by customers to reject or accept them.<br>
+>-Manage customers of the store.
 > <br>
+>Customer Functionality:
+>-View product groups.
+>-Browse products based on group.
+>-View different variant of a product.
+>-Add variants to cart.
+>-Change profile data.
+>-View and edit cart.
+>-Finalize cart and turn it into order.
+>-View past orders.
+>-View order details.
 
 # 😊 My Motivation
 
