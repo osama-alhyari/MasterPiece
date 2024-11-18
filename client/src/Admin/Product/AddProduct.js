@@ -163,7 +163,7 @@ export default function AddProduct() {
               </FormGroup>
 
               {/* Group checkboxes */}
-              {groups.map((group) => {
+              {groups?.map((group) => {
                 return (
                   <FormGroup check key={group.id}>
                     <Input

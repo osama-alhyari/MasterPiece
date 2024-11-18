@@ -3,41 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navigation = [
   {
-    title: "Dashboard",
-    href: "starter",
-    icon: "bi bi-speedometer2",
-  },
-  // {
-  //   title: "Alert",
-  //   href: "alerts",
-  //   icon: "bi bi-bell",
-  // },
-  // {
-  //   title: "Badges",
-  //   href: "badges",
-  //   icon: "bi bi-patch-check",
-  // },
-  // {
-  //   title: "Cards",
-  //   href: "cards",
-  //   icon: "bi bi-card-text",
-  // },
-  // {
-  //   title: "Grid",
-  //   href: "grid",
-  //   icon: "bi bi-columns",
-  // },
-  // {
-  //   title: "Table",
-  //   href: "table",
-  //   icon: "bi bi-layout-split",
-  // },
-  // {
-  //   title: "Forms",
-  //   href: "forms",
-  //   icon: "bi bi-textarea-resize",
-  // },
-  {
     title: "Products",
     href: "products",
     icon: "bi bi-bag-fill",

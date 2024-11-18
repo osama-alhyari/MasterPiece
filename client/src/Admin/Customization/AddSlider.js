@@ -115,7 +115,7 @@ export default function AddSlider() {
           },
         }
       );
-      navigate("/admin/sliders");
+      navigate("/admin/customization");
     } catch (error) {
       console.error("Error creating slider", error);
     }

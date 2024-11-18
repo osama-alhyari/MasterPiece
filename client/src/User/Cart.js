@@ -116,106 +116,131 @@ export default function Cart() {
   }
 
   return (
-    <div
-      className="container mt-4 text-white"
-      style={{ backgroundColor: "#1c1c1e" }}
-    >
-      <h1>Your Cart</h1>
-      <div className="row">
-        {/* Cart items list */}
-        <div className="col-md-8 cart-list">
-          <Table
-            className="no-wrap mt-3 align-middle"
-            responsive
-            borderless
-            dark
-          >
-            <thead>
-              <tr>
-                <th className="">Product</th>
-                <th className="">Variant</th>
-                <th className="text-center">Quantity</th>
-                <th className="">Price Per Unit</th>
-                <th className="">Total</th>
-                <th className="">Actions</th>
-              </tr>
-            </thead>
-            <tbody cl>
-              {cart.variants.map((variant, index) => (
-                <tr key={index} className="border-top">
-                  <td className="">{variant.product.name}</td>
-                  <td className="">{variant.name}</td>
-                  <td className="">
-                    <InputGroup>
-                      <Button
-                        color="light"
-                        onClick={() =>
-                          handleQuantityChange(variant.id, "decrement")
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        -
-                      </Button>
-                      <Input
-                        type="number"
-                        value={variant.pivot.quantity}
-                        readOnly
-                      />
-                      <Button
-                        color="light"
-                        onClick={() =>
-                          handleQuantityChange(variant.id, "increment")
-                        }
-                        style={{ cursor: "pointer" }}
-                      >
-                        +
-                      </Button>
-                    </InputGroup>
-                  </td>
-                  <td className="">{variant.product.price} JOD</td>
-                  <td className="">
-                    {variant.product.price * variant.pivot.quantity} JOD
-                  </td>
-                  <td className="">
-                    <Button
-                      color="danger"
-                      onClick={() => handleRemoveFromCart(variant.id)}
-                    >
-                      <i class="bi bi-trash3-fill"></i>
-                    </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-
-          {/* Clear Cart Button */}
-          <Button
-            color="warning"
-            className="mt-3 text-white"
-            onClick={handleClearCart}
-            disabled={cart.variants.length === 0} // Disable if the cart is already empty
-          >
-            Clear Cart
-          </Button>
-        </div>
-
-        {/* Cart summary */}
-        <div className="col-md-4 cart-summary">
-          <div className="p-3">
-            <h3>Total Items: {cart.items}</h3>
-            <h3>Total Price: {cart.total} JOD</h3>
-            <Button
-              color="light"
-              className="mt-3"
-              onClick={handleOrderCreation}
-              disabled={cart.variants.length === 0} // Disable if the cart is already empty
+    <section class="h-100 h-custom" style={{ backgroundColor: "black" }}>
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12">
+            <div
+              class="card card-registration card-registration-2"
+              style={{ borderRadius: "15px" }}
             >
-              Make Order
-            </Button>
+              <div class="card-body p-0">
+                <div class="row g-0">
+                  <div class="col-lg-8">
+                    <div class="p-5" style={{ backgroundColor: "#343a40" }}>
+                      <div class="d-flex justify-content-between align-items-center mb-5">
+                        <h1 class="fw-bold mb-0 text-white">Shopping Cart</h1>
+                        <h6 class="mb-0 text-muted">3 items</h6>
+                      </div>
+                      <hr class="my-4"></hr>
+                      {cart.variants.length === 0 ? (
+                        <h1 className="text-white mb-5 pb-5">Cart is Empty</h1>
+                      ) : null}
+                      {cart.variants.map((variant, index) => {
+                        return (
+                          <>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                              <div class="col-md-2 col-lg-2 col-xl-2">
+                                <img
+                                  src={`http://127.0.0.1:8000/product_images/${variant.images[0].name}`}
+                                  class="img-fluid rounded-3"
+                                  alt="Variant Cover"
+                                ></img>
+                              </div>
+                              <div class="col-md-3 col-lg-3 col-xl-3">
+                                <h6 class="text-white">
+                                  {variant.product.name}
+                                </h6>
+                                <h6 class="mb-0 text-white">{variant.name}</h6>
+                              </div>
+                              <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                <button
+                                  data-mdb-button-init
+                                  data-mdb-ripple-init
+                                  class="btn btn-link px-2 text-decoration-none text-white"
+                                  onClick={() =>
+                                    handleQuantityChange(
+                                      variant.id,
+                                      "decrement"
+                                    )
+                                  }
+                                >
+                                  -
+                                </button>
+
+                                {/* <input
+                                  name="quantity"
+                                  value={variant.pivot.quantity}
+                                  type="number"
+                                  class="form-control form-control-sm px-5 text-center"
+                                  readOnly
+                                /> */}
+                                <h1 className="text-white">
+                                  {variant.pivot.quantity}
+                                </h1>
+
+                                <button
+                                  data-mdb-button-init
+                                  data-mdb-ripple-init
+                                  class="btn btn-link px-2 text-decoration-none text-white"
+                                  onClick={() =>
+                                    handleQuantityChange(
+                                      variant.id,
+                                      "increment"
+                                    )
+                                  }
+                                >
+                                  +
+                                </button>
+                              </div>
+                              <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <h6 class="mb-0 text-white">
+                                  {variant.pivot.quantity *
+                                    variant.product.price}{" "}
+                                  JOD
+                                </h6>
+                              </div>
+                              <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                <a href="#!" class="text-muted">
+                                  <i class="fas fa-times"></i>
+                                </a>
+                              </div>
+                            </div>
+
+                            <hr class="my-4 text-white"></hr>
+                          </>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <div class="col-lg-4 bg-body-tertiary">
+                    <div class="p-5">
+                      <h3 class="fw-bold mb-5 mt-2 pt-1">
+                        Number Of Items: {cart.items}
+                      </h3>
+                      <hr class="my-4"></hr>
+
+                      <div class="d-flex justify-content-between mb-5">
+                        <h5 class="text-uppercase">Total price</h5>
+                        <h5>{cart.total} JOD</h5>
+                      </div>
+
+                      <button
+                        type="button"
+                        class="btn btn-dark btn-block btn-lg"
+                        onClick={handleOrderCreation}
+                        disabled={cart.variants.length === 0}
+                      >
+                        Make Order
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

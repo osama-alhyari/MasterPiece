@@ -46,52 +46,54 @@ function Slider() {
 
   return (
     <>
-      <div className="d-flex justify-content-center w-100">
-        <Carousel
-          activeIndex={activeIndex}
-          next={next}
-          previous={previous}
-          style={{ width: "75%" }}
-        >
-          {sliders?.map((slider) => (
-            <CarouselItem
-              onExiting={() => setAnimating(true)}
-              onExited={() => setAnimating(false)}
-              key={slider.id}
-            >
-              <div
-                className="d-flex justify-content-center align-items-end"
-                style={{
-                  backgroundImage: `url(http://127.0.0.1:8000/slider_images/${slider.name})`,
-                  height: "75vh",
-                  backgroundSize: "contain",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
+      {sliders.length === 0 ? null : (
+        <div className="d-flex justify-content-center w-100">
+          <Carousel
+            activeIndex={activeIndex}
+            next={next}
+            previous={previous}
+            style={{ width: "75%" }}
+          >
+            {sliders?.map((slider) => (
+              <CarouselItem
+                onExiting={() => setAnimating(true)}
+                onExited={() => setAnimating(false)}
+                key={slider.id}
               >
-                <Button
-                  color="dark"
-                  onClick={() =>
-                    handleRedirect(slider.group_id, slider.product_id)
-                  }
+                <div
+                  className="d-flex justify-content-center align-items-end"
+                  style={{
+                    backgroundImage: `url(http://127.0.0.1:8000/slider_images/${slider.name})`,
+                    height: "75vh",
+                    backgroundSize: "contain",
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
+                  }}
                 >
-                  View
-                </Button>
-              </div>
-            </CarouselItem>
-          ))}
-          <CarouselControl
-            direction="prev"
-            directionText="Previous"
-            onClickHandler={previous}
-          />
-          <CarouselControl
-            direction="next"
-            directionText="Next"
-            onClickHandler={next}
-          />
-        </Carousel>
-      </div>
+                  <Button
+                    color="dark"
+                    onClick={() =>
+                      handleRedirect(slider.group_id, slider.product_id)
+                    }
+                  >
+                    View
+                  </Button>
+                </div>
+              </CarouselItem>
+            ))}
+            <CarouselControl
+              direction="prev"
+              directionText="Previous"
+              onClickHandler={previous}
+            />
+            <CarouselControl
+              direction="next"
+              directionText="Next"
+              onClickHandler={next}
+            />
+          </Carousel>
+        </div>
+      )}
     </>
   );
 }

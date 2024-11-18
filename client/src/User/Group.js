@@ -26,7 +26,8 @@ export default function Group() {
 
   return (
     <div style={{ backgroundColor: "#1c1c1e" }}>
-      <h1 className=" text-white">{group?.name}</h1>
+      <h1 className=" text-white text-center">{group?.name}</h1>
+      <h3 className=" text-white text-center mb-5">{group?.description}</h3>
       <ProductsComponent group={id} />
     </div>
   );

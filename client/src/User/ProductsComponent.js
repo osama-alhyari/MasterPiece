@@ -32,7 +32,12 @@ export default function ProductsComponent(props) {
   }, [props]);
 
   return (
-    <div className="d-flex flex-wrap">
+    <div className="d-flex flex-wrap justify-content-center">
+      {products.length === 0 ? (
+        <h1 className="text-white text-center">
+          No Products Currently Available
+        </h1>
+      ) : null}
       {products?.map((product) => {
         return (
           <div className="col-3 p-2">

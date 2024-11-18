@@ -22,7 +22,7 @@ export default function UserFooter({ groups }) {
           <hr className="clearfix w-100 d-md-none pb-0" />
 
           <div className="col-md-3 mb-md-0 mb-3">
-            <h5 className="text-uppercase text-white">Products</h5>
+            <h5 className="text-uppercase text-white">Groups</h5>
             <ul className="list-unstyled">
               {groups
                 ? groups.map((group) => {
@@ -44,21 +44,22 @@ export default function UserFooter({ groups }) {
           <div className="col-md-3 mb-md-0 mb-3">
             <h5 className="text-uppercase text-white">Links</h5>
             <div className="d-flex gap-2">
-              <Button color="light">
-                <i class="bi bi-instagram"></i>
-              </Button>
+              <Link to={"https://www.instagram.com/makjosec"} target="blank">
+                <Button color="light">
+                  <i class="bi bi-instagram"></i>
+                </Button>
+              </Link>
+              <Link to={"https://www.facebook.com/MAKJOSEC"} target="blank">
+                <Button color="light">
+                  <i class="bi bi-facebook"></i>
+                </Button>
+              </Link>
 
-              <Button color="light">
-                <i class="bi bi-facebook"></i>
-              </Button>
-
-              <Button color="light">
-                <i class="bi bi-telephone-fill"></i>
-              </Button>
-
-              <Button color="light">
-                <i class="bi bi-youtube"></i>
-              </Button>
+              <Link to={"https://www.youtube.com/@makjosec2546"} target="blank">
+                <Button color="light">
+                  <i class="bi bi-youtube"></i>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

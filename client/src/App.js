@@ -34,20 +34,6 @@ const MyOrders = lazy(() => import("./User/MyOrders.js"));
 const MyOrder = lazy(() => import("./User/MyOrder.js"));
 const Test = lazy(() => import("./User/Test.jsx"));
 
-/****Layouts*****/
-// const FullLayout = lazy(() => import("./layouts/FullLayout.js"));
-
-/***** Pages ****/
-const Starter = lazy(() => import("./views/Starter.js"));
-const About = lazy(() => import("./views/About.js"));
-const Alerts = lazy(() => import("./views/ui/Alerts"));
-const Badges = lazy(() => import("./views/ui/Badges"));
-const Buttons = lazy(() => import("./views/ui/Buttons"));
-const Cards = lazy(() => import("./views/ui/Cards"));
-const Grid = lazy(() => import("./views/ui/Grid"));
-const Tables = lazy(() => import("./views/ui/Tables"));
-const Forms = lazy(() => import("./views/ui/Forms"));
-const Breadcrumbs = lazy(() => import("./views/ui/Breadcrumbs"));
 const Products = lazy(() => import("./Admin/Product/Products"));
 
 const App = () => {
@@ -71,7 +57,7 @@ const App = () => {
         </Route>
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>
-          <Route path="" element={<Starter />} />
+          <Route path="" element={<AdminProfile />} />
           <Route path="profile" element={<AdminProfile />} />
           <Route path="customization" element={<Customization />} />
           <Route path="customization/create" element={<AddSlider />} />
@@ -89,17 +75,6 @@ const App = () => {
           <Route path="users/create" element={<AddUser />} />
           <Route path="orders" element={<Orders />} />
           <Route path="orders/:id" element={<Order />} />
-
-          <Route path="starter" element={<Starter />} />
-          <Route path="about" element={<About />} />
-          <Route path="alerts" element={<Alerts />} />
-          <Route path="badges" element={<Badges />} />
-          <Route path="buttons" element={<Buttons />} />
-          <Route path="cards" element={<Cards />} />
-          <Route path="grid" element={<Grid />} />
-          <Route path="table" element={<Tables />} />
-          <Route path="forms" element={<Forms />} />
-          <Route path="breadcrumbs" element={<Breadcrumbs />} />
         </Route>
       </Routes>
     </div>
