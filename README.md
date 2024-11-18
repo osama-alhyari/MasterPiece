@@ -1,13 +1,15 @@
 # MasterPiece
 
-
+<div align="center">
 
 ![Project Logo](./images/logo.png)
 [![Server Larave](https://img.shields.io/badge/Server-Laravel-1f425f.svg)](https://laravel.com/)
 [![Client Reactjs](https://img.shields.io/badge/Client-Reactjs-11cc33.svg)](https://react.dev/)
 [![Project Status](https://img.shields.io/badge/Project%20Status-In%20Development-794c3c.svg)](https://github.com/osama-alhyari/MasterPiece/commits/main/)
-![Documentation](https://img.shields.io/badge/Documentation-Complete-11ccd3.svg)
+![Documentation](https://img.shields.io/badge/Documentation-In%20Progress-11ccd3.svg)
 ![Language](https://img.shields.io/badge/Languages%20Supported-English-9e45d1.svg)
+
+</div>
 
 <div align="center">
 
@@ -23,8 +25,8 @@
 ><br>
 > U-Commerce is an e-commerce platform that aims to give control to users over how their online store looks like.<br>
 ><br>
->Functionality: <br>
->-Create and add products.<br>
+>Admin Functionality: <br>
+>-Add products for customers to order.<br>
 >-Seperate products into categories (Groups).<br>
 >-Set group images to be showcased on the Landing page.<br>
 >-Create variants of a product and set stock to them.<br>
@@ -32,7 +34,18 @@
 >-Update and delete products and variants.<br>
 >-Set images in a slider and the pages redirected to from the slider.<br>
 >-View orders made by customers to reject or accept them.<br>
+>-Manage customers of the store.<br>
 > <br>
+>Customer Functionality:<br>
+>-View product groups.<br>
+>-Browse products based on group.<br>
+>-View different variant of a product.<br>
+>-Add variants to cart.<br>
+>-Change profile data.<br>
+>-View and edit cart.<br>
+>-Finalize cart and turn it into order.<br>
+>-View past orders.<br>
+>-View order details.<br>
 
 # 😊 My Motivation
 
